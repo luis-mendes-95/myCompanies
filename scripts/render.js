@@ -1,4 +1,4 @@
-import { getIndexOfId, getDate, getNewId, login, getUserInfo, register, addPost, editPost, deletePost, getPosts } from "./api.js"
+const database_render = database
 
 function renderHeader(type, data) {
 
@@ -6,57 +6,22 @@ function renderHeader(type, data) {
 
         let header_app = document.querySelector(".header_app")
             let h1_header_title = document.createElement("h1")
-            let div_p_union = document.createElement("div")
-                let p_first_contrast = document.createElement("p")
-                let p_second_contrast = document.createElement("p")
-                let p_third_contrast = document.createElement("p")
-                let p_rest_of_text = document.createElement("p")
+            let p_text = document.createElement("p")
             let span_info = document.createElement("span")
-            let div_pics = document.createElement("div")
-                let div_pic_1 = document.createElement("div")
-                    let img_pic_1 = document.createElement("img")
-                    let img_pic_2 = document.createElement("img")
-                    let img_pic_3 = document.createElement("img")
-                let div_pic_2 = document.createElement("div")
-                    let img_pic_4 = document.createElement("img")
+
                    
         h1_header_title.classList.add("h1_header_title")
-        div_p_union.classList.add("div_p_union")
-        p_first_contrast.classList.add("p_first_contrast")
-        p_second_contrast.classList.add("p_second_contrast")
-        p_third_contrast.classList.add("p_third_contrast")
-        p_rest_of_text.classList.add("p_rest_of_text")
+        p_text.classList.add("p_text")
         span_info.classList.add("span_info")
-        div_pics.classList.add("div_pics")
-        div_pic_1.classList.add("div_pic_1")
-        img_pic_1.classList.add("img_pic_1")
-        img_pic_2.classList.add("img_pic_2")
-        img_pic_3.classList.add("img_pic_3")
-        div_pic_2.classList.add("div_pic_2")
-        img_pic_4.classList.add("img_pic_4")
 
         header_app.innerHTML = ""
-        h1_header_title.innerText = "Petinfo"
-        p_first_contrast.innerText = "Amor"
-        p_second_contrast.innerText = "e"
-        p_third_contrast.innerText = "carinho"
-        p_rest_of_text.innerText = "por meio do conhecimento"
-        span_info.innerText = "Todas as informações para melhorar a vida do seu pet em um só lugar"
+        h1_header_title.innerText = "🌟My Companies"
+        span_info.innerText = "Controlando todo o fluxo de trabalho"
 
-        img_pic_1.src = "./assets/img/pet1.png"
-        img_pic_2.src = "./assets/img/pet2.png"
-        img_pic_3.src = "./assets/img/pet3.png"
-        img_pic_4.src = "./assets/img/pet4.png"
-
-        header_app.append(h1_header_title, div_p_union, span_info, div_pics)
-            div_p_union.append(p_first_contrast, p_second_contrast, p_third_contrast, p_rest_of_text)
-            div_pics.append(div_pic_1, div_pic_2)
-                div_pic_1.append(img_pic_1, img_pic_2, img_pic_3)
-                div_pic_2.appendChild(img_pic_4)
-
+        header_app.append(h1_header_title, p_text, span_info)
     }
 
-    if (type == 'register') {
+    if (type == 'registerUser') {
 
         let header_app = document.querySelector(".header_app")
             let h1_header_title = document.createElement("h1")
@@ -111,6 +76,19 @@ function renderHeader(type, data) {
         let div_user_button = document.createElement("div")
             let button_add_post = document.createElement("button")
             let img_user_pic = document.createElement("img")
+
+            let div_pics = document.createElement("div")
+            database_render.companies.forEach((company) => {
+
+                    let img_logo = document.createElement("img")
+                    
+                    img_logo.classList.add("img_logo")
+
+                    img_logo.src = company.avatar
+
+                    div_pics.appendChild(img_logo)
+
+                })
 
         header_app.removeAttribute("class")
         header_app.classList.add("header_app_logged_in")
@@ -197,7 +175,7 @@ async function renderMain(type) {
             
     }
 
-    if (type == 'register') {
+    if (type == 'registerUser') {
         
         let main_app = document.querySelector(".main_app") || document.querySelector(".main_app_register")
             let div_title_and_back = document.createElement("div")
@@ -256,7 +234,7 @@ async function renderMain(type) {
                 avatar: input_link_img.value
               }
 
-            register(post_register)
+            registerUser(post_register)
 
         })
         button_back_to_login.addEventListener("click", () => {
@@ -420,6 +398,38 @@ function renderModal(type, post) {
     }
 
     if (type == "registerError") {
+
+        let body = document.querySelector("body")
+
+        let div_modal = document.createElement("div")
+            let div_modal_title = document.createElement("div")
+                let h2_modal_title = document.createElement("h2")
+            let div_description = document.createElement("div")
+                let p_description = document.createElement("p")
+                let a_link = document.createElement("a")
+
+        div_modal.classList.add("div_modal")
+        div_modal_title.classList.add("div_modal_title")
+        h2_modal_title.classList.add("h2_modal_title_error")
+        div_description.classList.add("div_description")
+        p_description.classList.add("p_description")
+        a_link.classList.add("a_link")
+
+
+        a_link.href = "./index.html"
+       
+        h2_modal_title.innerText = "Ooops, algo deu errado!"
+        p_description.innerText = "Verifique seus dados e tente novamente."
+        a_link.innerText = "Tentar novamente"
+
+        body.appendChild(div_modal)
+            div_modal.append(div_modal_title, div_description)
+                div_modal_title.append(h2_modal_title)
+                div_description.append(p_description, a_link)
+
+    }
+
+    if (type == "loginError") {
 
         let body = document.querySelector("body")
 
@@ -723,8 +733,8 @@ function renderLoginPage() {
 }
 
 async function renderRegisterPage() {
-    renderMain('register')
-    renderHeader('register')
+    renderMain('registerUser')
+    renderHeader('registerUser')
 
 }
 
@@ -762,5 +772,3 @@ function checkInputs(input_user, input_password) {
 }
 
 renderLoginPage()
-
-export { getIndexOfId, renderHeader, renderMain, renderModal, renderLoginPage, renderRegisterPage, renderLoggedInPage }
