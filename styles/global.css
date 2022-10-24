@@ -6,3 +6,23 @@
   box-sizing: border-box;
   font-family: ibm plex sans;
 }
+
+:root {
+  --color-brand-1: #3d3d91;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+@media (min-width: 768px) {
+
+  body {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+}

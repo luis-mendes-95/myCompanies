@@ -19,50 +19,26 @@ function renderHeader(type, data) {
         span_info.innerText = "Controlando todo o fluxo de trabalho"
 
         header_app.append(h1_header_title, p_text, span_info)
+
     }
 
     if (type == 'registerUser') {
 
-        let header_app = document.querySelector(".header_app")
+     let header_app = document.querySelector(".header_app")
             let h1_header_title = document.createElement("h1")
-            let div_p_union = document.createElement("div")
-                let p_first_contrast = document.createElement("p")
+            let p_text = document.createElement("p")
             let span_info = document.createElement("span")
-            let div_pics = document.createElement("div")
-                let div_pic_1 = document.createElement("div")
-                    let img_pic_5 = document.createElement("img")
-                    let img_pic_6 = document.createElement("img")
-                    let img_pic_7 = document.createElement("img")
-                let div_pic_2 = document.createElement("div")
-                    let img_pic_8 = document.createElement("img")
+
                    
         h1_header_title.classList.add("h1_header_title")
-        div_p_union.classList.add("div_p_union")
-        p_first_contrast.classList.add("p_first_contrast")
+        p_text.classList.add("p_text")
         span_info.classList.add("span_info")
-        div_pics.classList.add("div_pics")
-        div_pic_1.classList.add("div_pic_1")
-        img_pic_5.classList.add("img_pic_1")
-        img_pic_6.classList.add("img_pic_2")
-        img_pic_7.classList.add("img_pic_3")
-        div_pic_2.classList.add("div_pic_2")
-        img_pic_8.classList.add("img_pic_4")
 
         header_app.innerHTML = ""
-        h1_header_title.innerText = "Petinfo"
-        p_first_contrast.innerText = "Obaaaaaaa"
-        span_info.innerText = "agora vamos poder contribuir para o bem estar do seu pet por meio do conhecimento"
+        h1_header_title.innerText = "🌟My Companies"
+        span_info.innerText = "Controlando todo o fluxo de trabalho"
 
-        img_pic_5.src = "./assets/img/pet6.png"
-        img_pic_6.src = "./assets/img/pet7.png"
-        img_pic_7.src = "./assets/img/pet8.png"
-        img_pic_8.src = "./assets/img/pet5.png"
-
-        header_app.append(h1_header_title, div_p_union, span_info, div_pics)
-            div_p_union.appendChild(p_first_contrast)
-            div_pics.append(div_pic_2, div_pic_1)
-                div_pic_1.append(img_pic_5, img_pic_6, img_pic_7)
-                div_pic_2.appendChild(img_pic_8)
+        header_app.append(h1_header_title, p_text, span_info)
 
     }
 
@@ -177,75 +153,60 @@ async function renderMain(type) {
 
     if (type == 'registerUser') {
         
-        let main_app = document.querySelector(".main_app") || document.querySelector(".main_app_register")
-            let div_title_and_back = document.createElement("div")
-                let h2_main_title = document.createElement("h2")
-                let p_back = document.createElement("p")
+        let main_app = document.querySelector(".main_app")
+            let h2_main_title = document.createElement("h2")
             let label_input_user = document.createElement("label")
             let input_user = document.createElement("input")
             let label_input_email = document.createElement("label")
             let input_email = document.createElement("input")
-            let label_input_link_img = document.createElement("label")
-            let input_link_img= document.createElement("input")
             let label_input_password = document.createElement("label")
             let input_password = document.createElement("input")
             let button_submit = document.createElement("button")
-            let button_back_to_login = document.createElement("button")
+            let button_back = document.createElement("button")
 
-        div_title_and_back.classList.add("div_title_and_back")
-        h2_main_title.classList.add("h2_main_title")
-
-        main_app.removeAttribute("class")
-        main_app.classList.add("main_app_register")
-        label_input_user.classList.add("label_input_user")
-        p_back.classList.add("p_back")
-        input_user.classList.add("input_user")
-        label_input_email.classList.add("label_input_email")
-        input_email.classList.add("input_email")
-        label_input_link_img.classList.add("label_input_link_img")
-        input_link_img.classList.add("input_link_img")
-        label_input_password.classList.add("label_input_password")
-        input_password.classList.add("input_password")
-        button_submit.classList.add("button_submit")
-        button_back_to_login.classList.add("button_back_to_login")
+            h2_main_title.classList.add("h2_main_title")
+            label_input_user.classList.add("label_input_user")
+            input_user.classList.add("input_user")
+            label_input_email.classList.add("label_input_email")
+            input_email.classList.add("input_email")
+            label_input_password.classList.add("label_input_password")
+            input_password.classList.add("input_password")
+            button_submit.classList.add("button_submit_enabled")
+            button_back.classList.add("button_back")
 
         main_app.innerHTML = ""
         h2_main_title.innerText = "Cadastro"
-        p_back.innerText = "Voltar para o Login"
         label_input_user.innerText = "Usuário"
         input_user.placeholder = "Digite aqui seu usuário"
         label_input_email.innerText = "E-mail"
         input_email.placeholder = "Digite aqui seu e-mail"
-        label_input_link_img.innerText = "Link da foto de perfil"
-        input_link_img.placeholder = "Insira o link aqui"
         label_input_password.innerText = "Senha"
         input_password.placeholder = "Digite aqui sua senha"
         button_submit.innerText = "Cadastrar"
-        button_back_to_login.innerText = "Voltar para o login"
+        button_back.innerText = "Voltar"
 
         input_password.type = "password"
 
         button_submit.addEventListener("click", ()=> {
 
-            let post_register = {
+            let new_user = {
+                id: getNewId(),
                 username: input_user.value,
                 email: input_email.value,
                 password: input_password.value,
-                avatar: input_link_img.value
+                access: 'All'
               }
 
-            registerUser(post_register)
+            registerUser(new_user)
 
         })
-        button_back_to_login.addEventListener("click", () => {
+        button_back.addEventListener("click", () => {
             renderLoginPage()
         })
 
-        main_app.append(div_title_and_back, label_input_user, input_user,
-             label_input_email, input_email, label_input_link_img,
-             input_link_img, label_input_password, input_password,
-            button_submit, button_back_to_login)   
-            div_title_and_back.append(h2_main_title, p_back)
+        main_app.append(h2_main_title,label_input_user,
+            input_user,label_input_email,input_email,
+            label_input_password,input_password,button_submit,button_back)
         
     }
     
@@ -432,6 +393,11 @@ function renderModal(type, post) {
     if (type == "loginError") {
 
         let body = document.querySelector("body")
+        let div_modal_to_remove = document.querySelector(".div_modal") || ""
+
+        if (div_modal_to_remove != "") {
+            body.removeChild(div_modal_to_remove)
+        }
 
         let div_modal = document.createElement("div")
             let div_modal_title = document.createElement("div")

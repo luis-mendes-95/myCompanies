@@ -1,0 +1,123 @@
+.main_app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 7vh 0 0 0;
+}
+
+.p_info{
+    margin: 5vh 0 0 0;
+    font-weight: 600;
+}
+
+.span_info{
+    text-align: center;
+    font-size: 10pt;
+}
+
+.span_incorrect_password{
+    display: none;
+}
+
+.label_input_user, .label_input_password, .label_input_email {
+    font-weight: 600;
+}
+
+.input_user, .input_password, .input_email{
+    height: 8vh;
+    width: 75%;
+    border-radius: 8px;
+    border: none;
+    background-color: #dddddd;
+    padding: 0 0 0 2%;
+}
+
+.input_user:focus, .input_password:focus{
+    outline-color: var(--color-brand-1);
+}
+
+.h2_main_title{
+    margin: 0 0 5vh 0;
+}
+
+.button_submit_enabled {
+    height: 7%;
+    width: 30%;
+    background-color: var(--color-brand-1);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    transition: 0.3s;
+    margin: 5% 0 5% 0;
+    height: 20%;
+    width: 50%;
+}
+
+.button_submit_enabled:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
+.button_submit_disabled {
+    height: 7%;
+    width: 30%;
+    background-color: #dfdfdf;
+    color: rgb(167, 167, 167);
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    margin: 5% 0 5% 0;
+    height: 20%;
+    width: 50%;
+}
+
+.button_register, .button_back {
+    height: 10%;
+    width: 25%;
+    margin: 2% 0 0 0;
+    background-color: var(--color-brand-1);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.button_register:hover, .button_back:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
+@media (min-width: 768px) {
+
+    .main_app{
+        width: 40%;
+        margin: 0 0 0 0;
+        justify-content: center;
+        gap: 1%;
+    }
+
+    .input_user, .input_password, .input_email{
+        height: 5vh;
+        width: 50%;
+    }
+
+    .button_submit_enabled {
+        height: 7%;
+        width: 30%;
+    }
+
+    .button_submit_disabled {
+        height: 7%;
+        width: 30%;
+    }
+
+    .button_register, .button_back {
+        height: 5%;
+        width: 14%;
+    }
+  
+  }
