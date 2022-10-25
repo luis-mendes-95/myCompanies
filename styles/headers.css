@@ -1,0 +1,31 @@
+.header_app{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5vh 0 0 0;
+}
+
+.h1_header_title {
+    animation: headerAppearDesktop 2s;
+}
+
+@media (min-width: 768px) {
+
+    .header_app{
+        width: 40%;
+        margin: 0 0 0 0;
+        justify-content: center;
+    }
+  
+  }
+
+
+@keyframes headerAppearDesktop {
+    0% {
+        margin: 0 0 0 -80vw;
+    }
+
+    100%{
+        margin: 0 0 0 0vw;
+    }
+}

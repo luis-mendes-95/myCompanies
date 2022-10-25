@@ -2,7 +2,7 @@ const user_id = JSON.parse(localStorage.getItem("@myCompanies:userId"))  || ""
 
 let token = JSON.parse(localStorage.getItem("@myCompanies:token")) || ""
 
-const database = {
+const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
 
     companies: [
         {
@@ -296,8 +296,8 @@ function getNewId() {
    
        let currentId = 0
    
-   database_posts.forEach((post) => {
-       currentId = post.id
+   database.users.forEach((user) => {
+       currentId = user.id
    })
    
    currentId += 1
@@ -348,16 +348,11 @@ async function registerCompany(data) {
 
 }
 
-async function registerUser(data) {
+async function registerUser(newUser) {
 
-    //add a new user to the database.
-
-    if (response.id) {
-        localStorage.setItem("@myCompanies:userId", JSON.stringify(response.id))
-        renderModal('registerOk')
-    } else {
-        renderModal('registerError')
-    }
+    database.users.push(newUser)
+    renderModal('registerOk')
+    localStorage.setItem("@myCompanies:database", JSON.stringify(database))
 
 }
 
