@@ -1,6 +1,4 @@
-const database_render = database
-
-function renderHeader(type, data) {
+async function renderHeader(type, data) {
 
     if (type == 'login') {
 
@@ -36,7 +34,7 @@ function renderHeader(type, data) {
 
         header_app.innerHTML = ""
         h1_header_title.innerText = "🌟My Companies"
-        span_info.innerText = "Controlando todo o fluxo de trabalho"
+        span_info.innerText = "Registre-se para administrar suas empresas e tarefas"
 
         header_app.append(h1_header_title, p_text, span_info)
 
@@ -50,11 +48,14 @@ function renderHeader(type, data) {
 
         let h2_header = document.createElement("h2")
         let div_user_button = document.createElement("div")
-            let button_add_post = document.createElement("button")
-            let img_user_pic = document.createElement("img")
+            let button_add_new_schedule = document.createElement("button")
+            let button_add_new_order = document.createElement("button")
+            let button_add_new_product = document.createElement("button")
+            let button_add_new_receivable = document.createElement("button")
+            let button_add_new_payable = document.createElement("button")
 
             let div_pics = document.createElement("div")
-            database_render.companies.forEach((company) => {
+            database.companies.forEach((company) => {
 
                     let img_logo = document.createElement("img")
                     
@@ -70,19 +71,26 @@ function renderHeader(type, data) {
         header_app.classList.add("header_app_logged_in")
         h2_header.classList.add("h2_header")
         div_user_button.classList.add("div_user_button")
-        button_add_post.classList.add("button_add_post")
-        img_user_pic.classList.add("img_user_pic")
+        button_add_new_schedule.classList.add("button_add_new")
+        button_add_new_order.classList.add("button_add_new")
+        button_add_new_product.classList.add("button_add_new")
+        button_add_new_receivable.classList.add("button_add_new")
+        button_add_new_payable.classList.add("button_add_new")
 
-        h2_header.innerText = "Petinfo"
-        button_add_post.innerText = "Criar publicação"
-        img_user_pic.src = data.avatar
+        h2_header.innerText = await user_name
+        button_add_new_schedule.innerText = "Criar agendamento"
+        button_add_new_order.innerText = "Novo pedido"
+        button_add_new_product.innerText = "Novo produto"
+        button_add_new_receivable.innerText = "Novo a receber"
+        button_add_new_payable.innerText = "Novo a pagar"
 
-        button_add_post.addEventListener("click", () => {
+        button_add_new_schedule.addEventListener("click", () => {
             renderModal('addPost')
         })
 
         header_app.append(h2_header, div_user_button)
-            div_user_button.append(button_add_post, img_user_pic)
+            div_user_button.append(button_add_new_schedule, button_add_new_order, button_add_new_product,
+                                    button_add_new_receivable, button_add_new_payable, div_pics)
 
     }
 
@@ -133,6 +141,12 @@ async function renderMain(type) {
         input_password.type = "password"
 
         button_register.addEventListener("click", () => {
+            let body = document.querySelector("body")
+            let div_modal_to_remove = document.querySelector(".div_modal") || ""
+
+            if (div_modal_to_remove != "") {
+                body.removeChild(div_modal_to_remove)
+            }
             renderRegisterPage()
         })
 
@@ -197,11 +211,21 @@ async function renderMain(type) {
                 access: 'All'
               }
 
+            input_user.value = ""
+            input_email.value = ""
+            input_password.value = ""
+
             registerUser(new_user)
 
         })
         button_back.addEventListener("click", () => {
             renderLoginPage()
+            let body = document.querySelector("body")
+            let div_modal_to_remove = document.querySelector(".div_modal") || ""
+
+            if (div_modal_to_remove != "") {
+                body.removeChild(div_modal_to_remove)
+            }
         })
 
         main_app.append(h2_main_title,label_input_user,
@@ -221,7 +245,7 @@ async function renderMain(type) {
 
         }
 
-        let main_app = document.querySelector(".main_app") || document.querySelector(".main_app_logged_in")
+        let main_app = document.querySelector(".main_app")
         let ul_feed = document.createElement("ul")
         let h2_ul_feed = document.createElement("h2")
 
@@ -235,14 +259,11 @@ async function renderMain(type) {
         main_app.appendChild(ul_feed)
             ul_feed.appendChild(h2_ul_feed)
 
-        let database_posts = await getPosts()
-
-        database_posts.forEach((post) => {
+        database.posts.forEach((post) => {
 
             let li_post = document.createElement("li")
                 let div_user_and_buttons = document.createElement("div")
                     let div_user_and_date = document.createElement("div")
-                        let img_user_pic = document.createElement("img")
                         let p_user_name = document.createElement("p")
                         let p_post_date = document.createElement("p")
                     let div_edit_and_exclude = document.createElement("div")
@@ -252,12 +273,9 @@ async function renderMain(type) {
                 let p_post_text = document.createElement("p")
                 let button_read_post = document.createElement("button")
 
-            li_post.id = post.id
-
             li_post.classList.add("li_post")
             div_user_and_buttons.classList.add("div_user_and_buttons")
             div_user_and_date.classList.add("div_user_and_date")
-            img_user_pic.classList.add("img_user_pic")
             p_user_name.classList.add("p_user_name")
             p_post_date.classList.add("p_post_date")
             div_edit_and_exclude.classList.add("div_edit_and_exclude")
@@ -267,9 +285,6 @@ async function renderMain(type) {
             p_post_text.classList.add("p_post_text")
             button_read_post.classList.add("button_read_post")
 
-            img_user_pic.src = post.user.avatar
-
-            p_user_name.innerText = post.user.username
             p_post_date.innerText = getDate()
             button_edit_post.innerText = "Editar"
             button_exclude_post.innerText = "Excluir"
@@ -300,20 +315,14 @@ async function renderMain(type) {
 
                 div_user_and_buttons.appendChild(div_user_and_date)
 
-                console.log(post.user.id)
-                console.log(user_id)
-
-                if (post.user.id == user_id) {
+                if (post.user_id == user_id) {
 
                     div_user_and_buttons.appendChild(div_edit_and_exclude)
                     div_edit_and_exclude.append(button_edit_post, button_exclude_post)
 
                 }
 
-                div_user_and_date.append(img_user_pic, p_user_name, p_post_date)
-
-
-
+                div_user_and_date.append(p_user_name, p_post_date)
 
         })
 
@@ -326,6 +335,11 @@ function renderModal(type, post) {
     if (type == "registerOk") {
 
         let body = document.querySelector("body")
+        let div_modal_to_remove = document.querySelector(".div_modal") || ""
+
+        if (div_modal_to_remove != "") {
+            body.removeChild(div_modal_to_remove)
+        }
 
         let div_modal = document.createElement("div")
             let div_modal_title = document.createElement("div")
@@ -348,7 +362,7 @@ function renderModal(type, post) {
         a_link.href = "./index.html"
        
         h2_modal_title.innerText = "Sua conta foi criada com sucesso!"
-        p_description.innerText = "Agora você pode acessar os conteúdos utilizando seu usuário e senha na página de login:"
+        p_description.innerText = "Comece a administrar seus negócios utilizando seu usuário e senha na página de login:"
         a_link.innerText = "Acessar página de login"
 
         body.appendChild(div_modal)
@@ -361,6 +375,11 @@ function renderModal(type, post) {
     if (type == "registerError") {
 
         let body = document.querySelector("body")
+        let div_modal_to_remove = document.querySelector(".div_modal") || ""
+
+        if (div_modal_to_remove != "") {
+            body.removeChild(div_modal_to_remove)
+        }
 
         let div_modal = document.createElement("div")
             let div_modal_title = document.createElement("div")
@@ -719,16 +738,15 @@ function checkInputs(input_user, input_password) {
 
             button_submit.removeAttribute("class")
             button_submit.classList.add("button_submit_enabled")
-            button_submit.addEventListener("click", ()=> {
 
-                renderModal('loading')
+            button_submit.addEventListener("click", ()=> {
     
-                let post_login = {
-                    email: input_user.value,
+                let user_login = {
+                    username: input_user.value,
                     password: input_password.value
                   }
     
-                login(post_login)
+                login(user_login)
     
             })
 

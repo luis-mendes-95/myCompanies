@@ -1,6 +1,6 @@
 const user_id = JSON.parse(localStorage.getItem("@myCompanies:userId"))  || ""
 
-let token = JSON.parse(localStorage.getItem("@myCompanies:token")) || ""
+const user_name = JSON.parse(localStorage.getItem("@myCompanies:userName"))  || ""
 
 const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
 
@@ -199,8 +199,8 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             id: "1",
             username: "LuisMendes",
-            password: "123456",
-            access: 'All'
+            password: "0981",
+            access: 'All'    
         }
     ],
 
@@ -244,6 +244,21 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
             ],
             price: 259.90
         },
+    ],
+
+    posts: [
+        {
+            date: '24/10/2022',
+            title: 'Alguém tem caneca para revenda?',
+            content: 'Posso buscar entre Itajaí e Barra Velha',
+            post_user_id: 3
+        },
+        {
+            date: '24/10/2022',
+            title: 'Algodão Premium 100%',
+            content: 'Vendo algodão bem barato, retalhos grandes',
+            post_user_id: 4
+        }
     ]
 
 }
@@ -297,7 +312,7 @@ function getNewId() {
        let currentId = 0
    
    database.users.forEach((user) => {
-       currentId = user.id
+       currentId = parseInt(user.id)
    })
    
    currentId += 1
@@ -314,21 +329,35 @@ async function getUserInfo(token) {
 
 async function login(data) {
 
-    //search if input values exists on registered users' array database.
+    let userLogged 
+    let access = false
 
-    if (login == 'success') {
+    database.users.forEach((user) => {
 
-        token = response.token
-        localStorage.setItem("@myCompanies:Token", JSON.stringify(response.token))
-        let user = await getUserInfo(token)
-        localStorage.setItem("@myCompanies:userId", JSON.stringify(user.id))
-        renderLoggedInPage(user)
+        if (user.username == data.username && user.password == data.password) {
+            access = true
+            userLogged = user
+        }
 
+    })
+
+    if (access == true) {
+
+        let body = document.querySelector("body")
+        let div_modal_to_remove = document.querySelector(".div_modal") || ""
+
+        if (div_modal_to_remove != "") {
+            body.removeChild(div_modal_to_remove)
+        }
+        localStorage.setItem("@myCompanies:userName", JSON.stringify(userLogged.username))
+        renderLoggedInPage(userLogged)
+
+        
     } else {
-
         renderModal('loginError')
-
     }
+
+
 
 }
 
@@ -350,9 +379,17 @@ async function registerCompany(data) {
 
 async function registerUser(newUser) {
 
-    database.users.push(newUser)
-    renderModal('registerOk')
-    localStorage.setItem("@myCompanies:database", JSON.stringify(database))
+    if (newUser.username != "" && newUser.email != "" && newUser.password != "") {
+
+        database.users.push(newUser)
+        renderModal('registerOk')
+        localStorage.setItem("@myCompanies:database", JSON.stringify(database))
+
+    } else {
+
+        renderModal('registerError')
+
+    }
 
 }
 

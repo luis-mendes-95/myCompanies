@@ -21,10 +21,11 @@
 
 .label_input_user, .label_input_password, .label_input_email {
     font-weight: 600;
+    margin: 5% 0 0 0;
 }
 
 .input_user, .input_password, .input_email{
-    height: 8vh;
+    height: 15vh;
     width: 75%;
     border-radius: 8px;
     border: none;
