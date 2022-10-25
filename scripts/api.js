@@ -1,24 +1,271 @@
-import { renderHeader, renderMain, renderModal, renderLoginPage, renderRegisterPage, renderLoggedInPage } from "./render.js"
+const user_id = JSON.parse(localStorage.getItem("@myCompanies:userId"))  || ""
 
-const user_id = JSON.parse(localStorage.getItem("@Petinfo:userId"))  || ""
+const user_name = JSON.parse(localStorage.getItem("@myCompanies:userName"))  || ""
 
-let token = JSON.parse(localStorage.getItem("@Petinfo:token")) || ""
+const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
+
+    companies: [
+        {
+            company: "Tejas Designs",
+            avatar: "./assets/img/logo-tejas-designs.png",
+            portfolio: [
+                {
+                    product: "Camiseta Básica Estampa Total Manga Curta Adulto",
+                    category: "Camisetas",
+                    mesh: "Dry Fit 100% Poliéster",
+                    costs: [
+                        {
+                            costName: "1 Und Oceano Malhas Camiseta Básica Estampa Total Manga Curta Adulto",
+                            value: 30.00
+                        }
+                    ],
+                    price: 59.90
+                },
+                {
+                    product: "Windbanner 3,10M Altura",
+                    category: "Windbanners",
+                    costs: [
+                        {
+                            costName: "Costura Windbanner Oceano Malhas",
+                            qty: 1,
+                            value: 10.00
+                        },
+                        {
+                            costName: "Metro linear tactel sublimado",
+                            qty: 2.5,
+                            value: 14.80
+                        },
+                        {
+                            costName: "Base concreto",
+                            qty: 1,
+                            value: 25.00
+                        },
+                        {
+                            costName: "Haste Alumínio",
+                            qty: 1,
+                            value: 25.00
+                        }
+                    ],
+                    price: 259.90
+                },
+            ],
+            receivables: [],
+            payables: []
+        },
+        {
+            company: "Mundo dos Personalizados",
+            avatar: "./assets/img/logo-mundo-dos-personalizados.png",
+            portfolio: [
+                {
+                    product: "Camiseta Básica Estampa Total Manga Curta Adulto",
+                    category: "Camisetas",
+                    mesh: "Dry Fit 100% Poliéster",
+                    costs: [
+                        {
+                            costName: "1 Und Oceano Malhas Camiseta Básica Estampa Total Manga Curta Adulto",
+                            value: 30.00
+                        }
+                    ],
+                    price: 59.90
+                },
+                {
+                    product: "Windbanner 3,10M Altura",
+                    category: "Windbanners",
+                    costs: [
+                        {
+                            costName: "Costura Windbanner Oceano Malhas",
+                            qty: 1,
+                            value: 10.00
+                        },
+                        {
+                            costName: "Metro linear tactel sublimado",
+                            qty: 2.5,
+                            value: 14.80
+                        },
+                        {
+                            costName: "Base concreto",
+                            qty: 1,
+                            value: 25.00
+                        },
+                        {
+                            costName: "Haste Alumínio",
+                            qty: 1,
+                            value: 25.00
+                        }
+                    ],
+                    price: 259.90
+                },
+            ],
+            receivables: [],
+            payables: []
+        },
+        {
+            company: "Mundo do Rock",
+            avatar: "./assets/img/logo-mundo-do-rock.png",
+            portfolio: [
+                {
+                    product: "Camiseta Básica Estampa Total Manga Curta Adulto",
+                    category: "Camisetas",
+                    mesh: "Dry Fit 100% Poliéster",
+                    costs: [
+                        {
+                            costName: "1 Und Oceano Malhas Camiseta Básica Estampa Total Manga Curta Adulto",
+                            value: 30.00
+                        }
+                    ],
+                    price: 59.90
+                },
+                {
+                    product: "Windbanner 3,10M Altura",
+                    category: "Windbanners",
+                    costs: [
+                        {
+                            costName: "Costura Windbanner Oceano Malhas",
+                            qty: 1,
+                            value: 10.00
+                        },
+                        {
+                            costName: "Metro linear tactel sublimado",
+                            qty: 2.5,
+                            value: 14.80
+                        },
+                        {
+                            costName: "Base concreto",
+                            qty: 1,
+                            value: 25.00
+                        },
+                        {
+                            costName: "Haste Alumínio",
+                            qty: 1,
+                            value: 25.00
+                        }
+                    ],
+                    price: 259.90
+                },
+            ],
+            receivables: [],
+            payables: []
+        },   
+        {
+            company: "Oceano Malhas",
+            avatar: "./assets/img/logo-oceano-malhas.png",
+            portfolio: [
+                {
+                    product: "Camiseta Básica Estampa Total Manga Curta Adulto",
+                    category: "Camisetas",
+                    mesh: "Dry Fit 100% Poliéster",
+                    costs: [
+                        {
+                            costName: "1 Und Oceano Malhas Camiseta Básica Estampa Total Manga Curta Adulto",
+                            value: 30.00
+                        }
+                    ],
+                    price: 59.90
+                },
+                {
+                    product: "Windbanner 3,10M Altura",
+                    category: "Windbanners",
+                    costs: [
+                        {
+                            costName: "Costura Windbanner Oceano Malhas",
+                            qty: 1,
+                            value: 10.00
+                        },
+                        {
+                            costName: "Metro linear tactel sublimado",
+                            qty: 2.5,
+                            value: 14.80
+                        },
+                        {
+                            costName: "Base concreto",
+                            qty: 1,
+                            value: 25.00
+                        },
+                        {
+                            costName: "Haste Alumínio",
+                            qty: 1,
+                            value: 25.00
+                        }
+                    ],
+                    price: 259.90
+                },
+            ],
+            receivables: [],
+            payables: []
+        }
+    ],
+
+    users: [
+        {
+            id: "1",
+            username: "LuisMendes",
+            password: "0981",
+            access: 'All'    
+        }
+    ],
+
+    portfolio: [
+        {
+            product: "Camiseta Básica Estampa Total Manga Curta Adulto",
+            category: "Camisetas",
+            mesh: "Dry Fit 100% Poliéster",
+            costs: [
+                {
+                    costName: "1 Und Oceano Malhas Camiseta Básica Estampa Total Manga Curta Adulto",
+                    value: 30.00
+                }
+            ],
+            price: 59.90
+        },
+        {
+            product: "Windbanner 3,10M Altura",
+            category: "Windbanners",
+            costs: [
+                {
+                    costName: "Costura Windbanner Oceano Malhas",
+                    qty: 1,
+                    value: 10.00
+                },
+                {
+                    costName: "Metro linear tactel sublimado",
+                    qty: 2.5,
+                    value: 14.80
+                },
+                {
+                    costName: "Base concreto",
+                    qty: 1,
+                    value: 25.00
+                },
+                {
+                    costName: "Haste Alumínio",
+                    qty: 1,
+                    value: 25.00
+                }
+            ],
+            price: 259.90
+        },
+    ],
+
+    posts: [
+        {
+            date: '24/10/2022',
+            title: 'Alguém tem caneca para revenda?',
+            content: 'Posso buscar entre Itajaí e Barra Velha',
+            post_user_id: 3
+        },
+        {
+            date: '24/10/2022',
+            title: 'Algodão Premium 100%',
+            content: 'Vendo algodão bem barato, retalhos grandes',
+            post_user_id: 4
+        }
+    ]
+
+}
 
 async function getPosts() {
 
-    let response = await fetch(`http://localhost:3333/posts`, {
-        "method": "GET",
-        "headers": {
-            "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${token}`
-        },
-    }).then(function(response){
-        return response.json()
-    }).then(function(responseJson){
-        return responseJson
-    })
-
-    return response
+    //search posts on database and return them all.
 
 }
 
@@ -64,8 +311,8 @@ function getNewId() {
    
        let currentId = 0
    
-   database_posts.forEach((post) => {
-       currentId = post.id
+   database.users.forEach((user) => {
+       currentId = parseInt(user.id)
    })
    
    currentId += 1
@@ -76,127 +323,90 @@ function getNewId() {
 
 async function getUserInfo(token) {
 
-    let response = await fetch(`http://localhost:3333/users/profile`, {
-        "method": "GET",
-        "headers": {
-            "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${token}`
-        },
-    }).then(function(response){
-        return response.json()
-    }).then(function(responseJson){
-        return responseJson
-    })
-
-    return response
+  //return logged user informations
 
 }
 
 async function login(data) {
 
-    let response = await fetch(`http://localhost:3333/login`, {
-        "method": "POST",
-        "headers": {
-            "Content-Type" : "application/json"
-        },
-        "body": JSON.stringify(data)
-    }).then(function(response){
-        return response.json()
-    }).then(function(responseJson){
-        return responseJson
+    let userLogged 
+    let access = false
+
+    database.users.forEach((user) => {
+
+        if (user.username == data.username && user.password == data.password) {
+            access = true
+            userLogged = user
+        }
+
     })
 
-    if (response.token) {
+    if (access == true) {
 
-        token = response.token
-        localStorage.setItem("@Petinfo:Token", JSON.stringify(response.token))
-        let user = await getUserInfo(token)
-        localStorage.setItem("@Petinfo:userId", JSON.stringify(user.id))
-        renderLoggedInPage(user)
+        let body = document.querySelector("body")
+        let div_modal_to_remove = document.querySelector(".div_modal") || ""
 
+        if (div_modal_to_remove != "") {
+            body.removeChild(div_modal_to_remove)
+        }
+        localStorage.setItem("@myCompanies:userName", JSON.stringify(userLogged.username))
+        renderLoggedInPage(userLogged)
+
+        
     } else {
-
-        renderModal('registerError')
-
+        renderModal('loginError')
     }
+
+
 
 }
 
-async function register(data) {
+async function registerCompany(data) {
 
-    let response = await fetch(`http://localhost:3333/users/create`, {
-        "method": "POST",
-        "headers": {
-            "Content-Type" : "application/json"
-        },
-        "body": JSON.stringify(data)
-    }).then(function(response){
-        return response.json()
-    }).then(function(responseJson){
-        return responseJson
-    })
+    let newCompany = {
 
-    if (response.id) {
-        localStorage.setItem("@Petinfo:userId", JSON.stringify(response.id))
+            company: data.company,
+            avatar: data.avatar,
+            portfolio: data.portfolio,
+            receivables: [],
+            payables: []
+
+        }
+
+    database.companies.push(newCompany)
+
+}
+
+async function registerUser(newUser) {
+
+    if (newUser.username != "" && newUser.email != "" && newUser.password != "") {
+
+        database.users.push(newUser)
         renderModal('registerOk')
+        localStorage.setItem("@myCompanies:database", JSON.stringify(database))
+
     } else {
+
         renderModal('registerError')
+
     }
 
 }
 
 async function addPost(data) {
 
-    let response = await fetch(`http://localhost:3333/posts/create`, {
-        "method": "POST",
-        "headers": {
-            "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${token}`
-        },
-        "body": JSON.stringify(data)
-    }).then(function(response){
-        return response.json()
-    }).then(function(responseJson){
-        return responseJson
-    })
+//user add post with customized information directed by customized users.
 
 }
 
 async function editPost(id, data) {
 
-    let response = await fetch(`http://localhost:3333/posts/${id}`, {
-        "method": "PATCH",
-        "headers": {
-            "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${token}`
-        },
-        "body": data
-    }).then(function(response){
-        return response.json()
-    }).then(function(responseJson){
-        return responseJson
-    })
-
-    return response
+//make a splice on array and put the new patched item.
 
 }
 
 async function deletePost(id) {
 
-    let response = await fetch(`http://localhost:3333/posts/${id}`, {
-        "method": "DELETE",
-        "headers": {
-            "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${token}`
-        },
-    }).then(function(response){
-        return response.json()
-    }).then(function(responseJson){
-        return responseJson
-    })
-
-    return response
+//delete the post that have that same id on parameter
 
 }
-
-export { getIndexOfId, getDate, getNewId, getUserInfo, login, register, addPost, editPost, deletePost, getPosts }

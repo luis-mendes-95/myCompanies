@@ -1,103 +1,42 @@
-import { getIndexOfId, getDate, getNewId, login, getUserInfo, register, addPost, editPost, deletePost, getPosts } from "./api.js"
-
-function renderHeader(type, data) {
+async function renderHeader(type, data) {
 
     if (type == 'login') {
 
         let header_app = document.querySelector(".header_app")
             let h1_header_title = document.createElement("h1")
-            let div_p_union = document.createElement("div")
-                let p_first_contrast = document.createElement("p")
-                let p_second_contrast = document.createElement("p")
-                let p_third_contrast = document.createElement("p")
-                let p_rest_of_text = document.createElement("p")
+            let p_text = document.createElement("p")
             let span_info = document.createElement("span")
-            let div_pics = document.createElement("div")
-                let div_pic_1 = document.createElement("div")
-                    let img_pic_1 = document.createElement("img")
-                    let img_pic_2 = document.createElement("img")
-                    let img_pic_3 = document.createElement("img")
-                let div_pic_2 = document.createElement("div")
-                    let img_pic_4 = document.createElement("img")
+
                    
         h1_header_title.classList.add("h1_header_title")
-        div_p_union.classList.add("div_p_union")
-        p_first_contrast.classList.add("p_first_contrast")
-        p_second_contrast.classList.add("p_second_contrast")
-        p_third_contrast.classList.add("p_third_contrast")
-        p_rest_of_text.classList.add("p_rest_of_text")
+        p_text.classList.add("p_text")
         span_info.classList.add("span_info")
-        div_pics.classList.add("div_pics")
-        div_pic_1.classList.add("div_pic_1")
-        img_pic_1.classList.add("img_pic_1")
-        img_pic_2.classList.add("img_pic_2")
-        img_pic_3.classList.add("img_pic_3")
-        div_pic_2.classList.add("div_pic_2")
-        img_pic_4.classList.add("img_pic_4")
 
         header_app.innerHTML = ""
-        h1_header_title.innerText = "Petinfo"
-        p_first_contrast.innerText = "Amor"
-        p_second_contrast.innerText = "e"
-        p_third_contrast.innerText = "carinho"
-        p_rest_of_text.innerText = "por meio do conhecimento"
-        span_info.innerText = "Todas as informações para melhorar a vida do seu pet em um só lugar"
+        h1_header_title.innerText = "🌟My Companies"
+        span_info.innerText = "Controlando todo o fluxo de trabalho"
 
-        img_pic_1.src = "./assets/img/pet1.png"
-        img_pic_2.src = "./assets/img/pet2.png"
-        img_pic_3.src = "./assets/img/pet3.png"
-        img_pic_4.src = "./assets/img/pet4.png"
-
-        header_app.append(h1_header_title, div_p_union, span_info, div_pics)
-            div_p_union.append(p_first_contrast, p_second_contrast, p_third_contrast, p_rest_of_text)
-            div_pics.append(div_pic_1, div_pic_2)
-                div_pic_1.append(img_pic_1, img_pic_2, img_pic_3)
-                div_pic_2.appendChild(img_pic_4)
+        header_app.append(h1_header_title, p_text, span_info)
 
     }
 
-    if (type == 'register') {
+    if (type == 'registerUser') {
 
-        let header_app = document.querySelector(".header_app")
+     let header_app = document.querySelector(".header_app")
             let h1_header_title = document.createElement("h1")
-            let div_p_union = document.createElement("div")
-                let p_first_contrast = document.createElement("p")
+            let p_text = document.createElement("p")
             let span_info = document.createElement("span")
-            let div_pics = document.createElement("div")
-                let div_pic_1 = document.createElement("div")
-                    let img_pic_5 = document.createElement("img")
-                    let img_pic_6 = document.createElement("img")
-                    let img_pic_7 = document.createElement("img")
-                let div_pic_2 = document.createElement("div")
-                    let img_pic_8 = document.createElement("img")
+
                    
         h1_header_title.classList.add("h1_header_title")
-        div_p_union.classList.add("div_p_union")
-        p_first_contrast.classList.add("p_first_contrast")
+        p_text.classList.add("p_text")
         span_info.classList.add("span_info")
-        div_pics.classList.add("div_pics")
-        div_pic_1.classList.add("div_pic_1")
-        img_pic_5.classList.add("img_pic_1")
-        img_pic_6.classList.add("img_pic_2")
-        img_pic_7.classList.add("img_pic_3")
-        div_pic_2.classList.add("div_pic_2")
-        img_pic_8.classList.add("img_pic_4")
 
         header_app.innerHTML = ""
-        h1_header_title.innerText = "Petinfo"
-        p_first_contrast.innerText = "Obaaaaaaa"
-        span_info.innerText = "agora vamos poder contribuir para o bem estar do seu pet por meio do conhecimento"
+        h1_header_title.innerText = "🌟My Companies"
+        span_info.innerText = "Registre-se para administrar suas empresas e tarefas"
 
-        img_pic_5.src = "./assets/img/pet6.png"
-        img_pic_6.src = "./assets/img/pet7.png"
-        img_pic_7.src = "./assets/img/pet8.png"
-        img_pic_8.src = "./assets/img/pet5.png"
-
-        header_app.append(h1_header_title, div_p_union, span_info, div_pics)
-            div_p_union.appendChild(p_first_contrast)
-            div_pics.append(div_pic_2, div_pic_1)
-                div_pic_1.append(img_pic_5, img_pic_6, img_pic_7)
-                div_pic_2.appendChild(img_pic_8)
+        header_app.append(h1_header_title, p_text, span_info)
 
     }
 
@@ -109,26 +48,49 @@ function renderHeader(type, data) {
 
         let h2_header = document.createElement("h2")
         let div_user_button = document.createElement("div")
-            let button_add_post = document.createElement("button")
-            let img_user_pic = document.createElement("img")
+            let button_add_new_schedule = document.createElement("button")
+            let button_add_new_order = document.createElement("button")
+            let button_add_new_product = document.createElement("button")
+            let button_add_new_receivable = document.createElement("button")
+            let button_add_new_payable = document.createElement("button")
+
+            let div_pics = document.createElement("div")
+            database.companies.forEach((company) => {
+
+                    let img_logo = document.createElement("img")
+                    
+                    img_logo.classList.add("img_logo")
+
+                    img_logo.src = company.avatar
+
+                    div_pics.appendChild(img_logo)
+
+                })
 
         header_app.removeAttribute("class")
         header_app.classList.add("header_app_logged_in")
         h2_header.classList.add("h2_header")
         div_user_button.classList.add("div_user_button")
-        button_add_post.classList.add("button_add_post")
-        img_user_pic.classList.add("img_user_pic")
+        button_add_new_schedule.classList.add("button_add_new")
+        button_add_new_order.classList.add("button_add_new")
+        button_add_new_product.classList.add("button_add_new")
+        button_add_new_receivable.classList.add("button_add_new")
+        button_add_new_payable.classList.add("button_add_new")
 
-        h2_header.innerText = "Petinfo"
-        button_add_post.innerText = "Criar publicação"
-        img_user_pic.src = data.avatar
+        h2_header.innerText = await user_name
+        button_add_new_schedule.innerText = "Criar agendamento"
+        button_add_new_order.innerText = "Novo pedido"
+        button_add_new_product.innerText = "Novo produto"
+        button_add_new_receivable.innerText = "Novo a receber"
+        button_add_new_payable.innerText = "Novo a pagar"
 
-        button_add_post.addEventListener("click", () => {
+        button_add_new_schedule.addEventListener("click", () => {
             renderModal('addPost')
         })
 
         header_app.append(h2_header, div_user_button)
-            div_user_button.append(button_add_post, img_user_pic)
+            div_user_button.append(button_add_new_schedule, button_add_new_order, button_add_new_product,
+                                    button_add_new_receivable, button_add_new_payable, div_pics)
 
     }
 
@@ -179,6 +141,12 @@ async function renderMain(type) {
         input_password.type = "password"
 
         button_register.addEventListener("click", () => {
+            let body = document.querySelector("body")
+            let div_modal_to_remove = document.querySelector(".div_modal") || ""
+
+            if (div_modal_to_remove != "") {
+                body.removeChild(div_modal_to_remove)
+            }
             renderRegisterPage()
         })
 
@@ -197,77 +165,72 @@ async function renderMain(type) {
             
     }
 
-    if (type == 'register') {
+    if (type == 'registerUser') {
         
-        let main_app = document.querySelector(".main_app") || document.querySelector(".main_app_register")
-            let div_title_and_back = document.createElement("div")
-                let h2_main_title = document.createElement("h2")
-                let p_back = document.createElement("p")
+        let main_app = document.querySelector(".main_app")
+            let h2_main_title = document.createElement("h2")
             let label_input_user = document.createElement("label")
             let input_user = document.createElement("input")
             let label_input_email = document.createElement("label")
             let input_email = document.createElement("input")
-            let label_input_link_img = document.createElement("label")
-            let input_link_img= document.createElement("input")
             let label_input_password = document.createElement("label")
             let input_password = document.createElement("input")
             let button_submit = document.createElement("button")
-            let button_back_to_login = document.createElement("button")
+            let button_back = document.createElement("button")
 
-        div_title_and_back.classList.add("div_title_and_back")
-        h2_main_title.classList.add("h2_main_title")
-
-        main_app.removeAttribute("class")
-        main_app.classList.add("main_app_register")
-        label_input_user.classList.add("label_input_user")
-        p_back.classList.add("p_back")
-        input_user.classList.add("input_user")
-        label_input_email.classList.add("label_input_email")
-        input_email.classList.add("input_email")
-        label_input_link_img.classList.add("label_input_link_img")
-        input_link_img.classList.add("input_link_img")
-        label_input_password.classList.add("label_input_password")
-        input_password.classList.add("input_password")
-        button_submit.classList.add("button_submit")
-        button_back_to_login.classList.add("button_back_to_login")
+            h2_main_title.classList.add("h2_main_title")
+            label_input_user.classList.add("label_input_user")
+            input_user.classList.add("input_user")
+            label_input_email.classList.add("label_input_email")
+            input_email.classList.add("input_email")
+            label_input_password.classList.add("label_input_password")
+            input_password.classList.add("input_password")
+            button_submit.classList.add("button_submit_enabled")
+            button_back.classList.add("button_back")
 
         main_app.innerHTML = ""
         h2_main_title.innerText = "Cadastro"
-        p_back.innerText = "Voltar para o Login"
         label_input_user.innerText = "Usuário"
         input_user.placeholder = "Digite aqui seu usuário"
         label_input_email.innerText = "E-mail"
         input_email.placeholder = "Digite aqui seu e-mail"
-        label_input_link_img.innerText = "Link da foto de perfil"
-        input_link_img.placeholder = "Insira o link aqui"
         label_input_password.innerText = "Senha"
         input_password.placeholder = "Digite aqui sua senha"
         button_submit.innerText = "Cadastrar"
-        button_back_to_login.innerText = "Voltar para o login"
+        button_back.innerText = "Voltar"
 
         input_password.type = "password"
 
         button_submit.addEventListener("click", ()=> {
 
-            let post_register = {
+            let new_user = {
+                id: getNewId(),
                 username: input_user.value,
                 email: input_email.value,
                 password: input_password.value,
-                avatar: input_link_img.value
+                access: 'All'
               }
 
-            register(post_register)
+            input_user.value = ""
+            input_email.value = ""
+            input_password.value = ""
+
+            registerUser(new_user)
 
         })
-        button_back_to_login.addEventListener("click", () => {
+        button_back.addEventListener("click", () => {
             renderLoginPage()
+            let body = document.querySelector("body")
+            let div_modal_to_remove = document.querySelector(".div_modal") || ""
+
+            if (div_modal_to_remove != "") {
+                body.removeChild(div_modal_to_remove)
+            }
         })
 
-        main_app.append(div_title_and_back, label_input_user, input_user,
-             label_input_email, input_email, label_input_link_img,
-             input_link_img, label_input_password, input_password,
-            button_submit, button_back_to_login)   
-            div_title_and_back.append(h2_main_title, p_back)
+        main_app.append(h2_main_title,label_input_user,
+            input_user,label_input_email,input_email,
+            label_input_password,input_password,button_submit,button_back)
         
     }
     
@@ -282,7 +245,7 @@ async function renderMain(type) {
 
         }
 
-        let main_app = document.querySelector(".main_app") || document.querySelector(".main_app_logged_in")
+        let main_app = document.querySelector(".main_app")
         let ul_feed = document.createElement("ul")
         let h2_ul_feed = document.createElement("h2")
 
@@ -296,14 +259,11 @@ async function renderMain(type) {
         main_app.appendChild(ul_feed)
             ul_feed.appendChild(h2_ul_feed)
 
-        let database_posts = await getPosts()
-
-        database_posts.forEach((post) => {
+        database.posts.forEach((post) => {
 
             let li_post = document.createElement("li")
                 let div_user_and_buttons = document.createElement("div")
                     let div_user_and_date = document.createElement("div")
-                        let img_user_pic = document.createElement("img")
                         let p_user_name = document.createElement("p")
                         let p_post_date = document.createElement("p")
                     let div_edit_and_exclude = document.createElement("div")
@@ -313,12 +273,9 @@ async function renderMain(type) {
                 let p_post_text = document.createElement("p")
                 let button_read_post = document.createElement("button")
 
-            li_post.id = post.id
-
             li_post.classList.add("li_post")
             div_user_and_buttons.classList.add("div_user_and_buttons")
             div_user_and_date.classList.add("div_user_and_date")
-            img_user_pic.classList.add("img_user_pic")
             p_user_name.classList.add("p_user_name")
             p_post_date.classList.add("p_post_date")
             div_edit_and_exclude.classList.add("div_edit_and_exclude")
@@ -328,9 +285,6 @@ async function renderMain(type) {
             p_post_text.classList.add("p_post_text")
             button_read_post.classList.add("button_read_post")
 
-            img_user_pic.src = post.user.avatar
-
-            p_user_name.innerText = post.user.username
             p_post_date.innerText = getDate()
             button_edit_post.innerText = "Editar"
             button_exclude_post.innerText = "Excluir"
@@ -361,20 +315,14 @@ async function renderMain(type) {
 
                 div_user_and_buttons.appendChild(div_user_and_date)
 
-                console.log(post.user.id)
-                console.log(user_id)
-
-                if (post.user.id == user_id) {
+                if (post.user_id == user_id) {
 
                     div_user_and_buttons.appendChild(div_edit_and_exclude)
                     div_edit_and_exclude.append(button_edit_post, button_exclude_post)
 
                 }
 
-                div_user_and_date.append(img_user_pic, p_user_name, p_post_date)
-
-
-
+                div_user_and_date.append(p_user_name, p_post_date)
 
         })
 
@@ -387,6 +335,11 @@ function renderModal(type, post) {
     if (type == "registerOk") {
 
         let body = document.querySelector("body")
+        let div_modal_to_remove = document.querySelector(".div_modal") || ""
+
+        if (div_modal_to_remove != "") {
+            body.removeChild(div_modal_to_remove)
+        }
 
         let div_modal = document.createElement("div")
             let div_modal_title = document.createElement("div")
@@ -409,7 +362,7 @@ function renderModal(type, post) {
         a_link.href = "./index.html"
        
         h2_modal_title.innerText = "Sua conta foi criada com sucesso!"
-        p_description.innerText = "Agora você pode acessar os conteúdos utilizando seu usuário e senha na página de login:"
+        p_description.innerText = "Comece a administrar seus negócios utilizando seu usuário e senha na página de login:"
         a_link.innerText = "Acessar página de login"
 
         body.appendChild(div_modal)
@@ -422,6 +375,48 @@ function renderModal(type, post) {
     if (type == "registerError") {
 
         let body = document.querySelector("body")
+        let div_modal_to_remove = document.querySelector(".div_modal") || ""
+
+        if (div_modal_to_remove != "") {
+            body.removeChild(div_modal_to_remove)
+        }
+
+        let div_modal = document.createElement("div")
+            let div_modal_title = document.createElement("div")
+                let h2_modal_title = document.createElement("h2")
+            let div_description = document.createElement("div")
+                let p_description = document.createElement("p")
+                let a_link = document.createElement("a")
+
+        div_modal.classList.add("div_modal")
+        div_modal_title.classList.add("div_modal_title")
+        h2_modal_title.classList.add("h2_modal_title_error")
+        div_description.classList.add("div_description")
+        p_description.classList.add("p_description")
+        a_link.classList.add("a_link")
+
+
+        a_link.href = "./index.html"
+       
+        h2_modal_title.innerText = "Ooops, algo deu errado!"
+        p_description.innerText = "Verifique seus dados e tente novamente."
+        a_link.innerText = "Tentar novamente"
+
+        body.appendChild(div_modal)
+            div_modal.append(div_modal_title, div_description)
+                div_modal_title.append(h2_modal_title)
+                div_description.append(p_description, a_link)
+
+    }
+
+    if (type == "loginError") {
+
+        let body = document.querySelector("body")
+        let div_modal_to_remove = document.querySelector(".div_modal") || ""
+
+        if (div_modal_to_remove != "") {
+            body.removeChild(div_modal_to_remove)
+        }
 
         let div_modal = document.createElement("div")
             let div_modal_title = document.createElement("div")
@@ -723,8 +718,8 @@ function renderLoginPage() {
 }
 
 async function renderRegisterPage() {
-    renderMain('register')
-    renderHeader('register')
+    renderMain('registerUser')
+    renderHeader('registerUser')
 
 }
 
@@ -743,16 +738,15 @@ function checkInputs(input_user, input_password) {
 
             button_submit.removeAttribute("class")
             button_submit.classList.add("button_submit_enabled")
-            button_submit.addEventListener("click", ()=> {
 
-                renderModal('loading')
+            button_submit.addEventListener("click", ()=> {
     
-                let post_login = {
-                    email: input_user.value,
+                let user_login = {
+                    username: input_user.value,
                     password: input_password.value
                   }
     
-                login(post_login)
+                login(user_login)
     
             })
 
@@ -762,5 +756,3 @@ function checkInputs(input_user, input_password) {
 }
 
 renderLoginPage()
-
-export { getIndexOfId, renderHeader, renderMain, renderModal, renderLoginPage, renderRegisterPage, renderLoggedInPage }
