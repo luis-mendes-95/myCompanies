@@ -5,6 +5,10 @@
     margin: 7vh 0 0 0;
 }
 
+.main_app_logged_in{
+    padding: 5%;
+}
+
 .p_info{
     margin: 5vh 0 0 0;
     font-weight: 600;

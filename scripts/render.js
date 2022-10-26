@@ -1,3 +1,5 @@
+let selected_companies = []
+
 async function renderHeader(type, data) {
 
     if (type == 'login') {
@@ -48,49 +50,91 @@ async function renderHeader(type, data) {
 
         let h2_header = document.createElement("h2")
         let div_user_button = document.createElement("div")
-            let button_add_new_schedule = document.createElement("button")
-            let button_add_new_order = document.createElement("button")
-            let button_add_new_product = document.createElement("button")
-            let button_add_new_receivable = document.createElement("button")
-            let button_add_new_payable = document.createElement("button")
+            let button_schedule = document.createElement("button")
+            let button_order = document.createElement("button")
+            let button_products = document.createElement("button")
+            let button_receivables = document.createElement("button")
+            let button_payables = document.createElement("button")
 
             let div_pics = document.createElement("div")
-            database.companies.forEach((company) => {
 
-                    let img_logo = document.createElement("img")
-                    
-                    img_logo.classList.add("img_logo")
-
-                    img_logo.src = company.avatar
-
-                    div_pics.appendChild(img_logo)
-
-                })
+            let p_select_company = document.createElement("p")
 
         header_app.removeAttribute("class")
         header_app.classList.add("header_app_logged_in")
         h2_header.classList.add("h2_header")
         div_user_button.classList.add("div_user_button")
-        button_add_new_schedule.classList.add("button_add_new")
-        button_add_new_order.classList.add("button_add_new")
-        button_add_new_product.classList.add("button_add_new")
-        button_add_new_receivable.classList.add("button_add_new")
-        button_add_new_payable.classList.add("button_add_new")
+        button_schedule.classList.add("button_menu")
+        button_order.classList.add("button_menu")
+        button_products.classList.add("button_menu")
+        button_receivables.classList.add("button_menu")
+        button_payables.classList.add("button_menu")
+        div_pics.classList.add("div_pics")
+        p_select_company.classList.add("p_select_company")
 
-        h2_header.innerText = await user_name
-        button_add_new_schedule.innerText = "Criar agendamento"
-        button_add_new_order.innerText = "Novo pedido"
-        button_add_new_product.innerText = "Novo produto"
-        button_add_new_receivable.innerText = "Novo a receber"
-        button_add_new_payable.innerText = "Novo a pagar"
+        h2_header.innerText = `${user_name} - ${user_type}`
+        button_schedule.innerText = "AGENDA"
+        button_order.innerText = "PEDIDOS"
+        button_products.innerText = "PRODUTOS"
+        button_receivables.innerText = "A RECEBER"
+        button_payables.innerText = "A PAGAR"
+        p_select_company.innerText = "Selecione uma ou mais empresas:"
 
-        button_add_new_schedule.addEventListener("click", () => {
-            renderModal('addPost')
+        button_schedule.addEventListener("click", () => {
+            renderModal('schedule')
         })
 
-        header_app.append(h2_header, div_user_button)
-            div_user_button.append(button_add_new_schedule, button_add_new_order, button_add_new_product,
-                                    button_add_new_receivable, button_add_new_payable, div_pics)
+        header_app.append(h2_header, div_pics, div_user_button)
+            div_pics.appendChild(p_select_company)
+            database.companies.forEach((company) => {
+
+                let img_logo = document.createElement("img")
+
+                img_logo.company = company.company
+                
+                img_logo.classList.add("img_logo")
+
+                img_logo.src = company.avatar
+
+                div_pics.appendChild(img_logo)
+
+                img_logo.addEventListener("click", () => {
+
+                    if (selected_companies.length == 0) {
+
+                        img_logo.removeAttribute("class")
+                        img_logo.classList.add("img_logo_selected")
+                        selected_companies.push(img_logo.company)
+
+                    }
+                    
+                    if (selected_companies.length == 1) {
+
+                        if (img_logo.company != selected_companies[0]) {
+
+                            img_logo.removeAttribute("class")
+                            img_logo.classList.add("img_logo_selected")
+                            selected_companies.push(img_logo.company)
+
+                        }
+
+                        if (img_logo.company == selected_companies[0]) {
+
+                            img_logo.removeAttribute("class")
+                            img_logo.classList.add("img_logo")
+                            let index_to_splice = getIndexSelectedCompany(img_logo.company)
+
+                            selected_companies.splice(index_to_splice, 1)
+
+                        }
+
+                    } 
+
+                })
+
+            })
+            div_user_button.append(button_schedule, button_order, button_products,
+                button_receivables, button_payables)
 
     }
 
@@ -154,8 +198,19 @@ async function renderMain(type) {
             checkInputs(input_user, input_password)
         })
 
-        input_password.addEventListener("keypress", () => {
+        input_password.addEventListener("keypress", (e) => {
             checkInputs(input_user, input_password)
+
+            if (e.key === "Enter") {
+
+                let user_login = {
+                    username: input_user.value,
+                    password: input_password.value
+                  }
+    
+                login(user_login)
+
+            }
         })
 
         main_app.append(h2_main_title, label_input_user, input_user,
@@ -208,7 +263,7 @@ async function renderMain(type) {
                 username: input_user.value,
                 email: input_email.value,
                 password: input_password.value,
-                access: 'All'
+                userType: 'Admin'
               }
 
             input_user.value = ""
@@ -246,20 +301,20 @@ async function renderMain(type) {
         }
 
         let main_app = document.querySelector(".main_app")
-        let ul_feed = document.createElement("ul")
-        let h2_ul_feed = document.createElement("h2")
+        let ul_schedule = document.createElement("ul")
+        let h2_ul_schedule = document.createElement("h2")
 
         main_app.innerHTML = ""
-        h2_ul_feed.innerText = "Feed"
+        h2_ul_schedule.innerText = "AGENDA"
 
         main_app.removeAttribute("class")
         main_app.classList.add("main_app_logged_in")
-        ul_feed.classList.add("ul_feed")
+        ul_schedule.classList.add("ul_schedule")
 
-        main_app.appendChild(ul_feed)
-            ul_feed.appendChild(h2_ul_feed)
+        main_app.appendChild(ul_schedule)
+        ul_schedule.appendChild(h2_ul_schedule)
 
-        database.posts.forEach((post) => {
+        database.schedules.forEach((schedule) => {
 
             let li_post = document.createElement("li")
                 let div_user_and_buttons = document.createElement("div")
@@ -288,9 +343,9 @@ async function renderMain(type) {
             p_post_date.innerText = getDate()
             button_edit_post.innerText = "Editar"
             button_exclude_post.innerText = "Excluir"
-            h2_post_title.innerText = post.title
-            p_post_text.innerText = post.content
-            button_read_post.innerText = "Acessar publicação"
+            h2_post_title.innerText = schedule.title
+            p_post_text.innerText = schedule.content
+            button_read_post.innerText = "Acessar compromisso"
 
             button_edit_post.addEventListener("click", () => {
 
@@ -306,21 +361,17 @@ async function renderMain(type) {
 
                 renderModal('readPost', post)
 
-            })
+            }) 
 
-            ul_feed.appendChild(li_post)
+            ul_schedule.appendChild(li_post)
                 li_post.append(div_user_and_buttons, h2_post_title, p_post_text, button_read_post)
 
                 let user_id = JSON.parse(localStorage.getItem("@Petinfo:userId"))
 
                 div_user_and_buttons.appendChild(div_user_and_date)
 
-                if (post.user_id == user_id) {
-
                     div_user_and_buttons.appendChild(div_edit_and_exclude)
                     div_edit_and_exclude.append(button_edit_post, button_exclude_post)
-
-                }
 
                 div_user_and_date.append(p_user_name, p_post_date)
 
@@ -755,4 +806,17 @@ function checkInputs(input_user, input_password) {
 
 }
 
-renderLoginPage()
+if (user_name != "") {
+
+    let user = {
+        id: user_id,
+        username: user_name,
+        access: user_type    
+    }
+
+    renderLoggedInPage(user)
+
+} else {
+    renderLoginPage()
+}
+

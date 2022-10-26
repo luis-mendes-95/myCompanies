@@ -2,6 +2,8 @@ const user_id = JSON.parse(localStorage.getItem("@myCompanies:userId"))  || ""
 
 const user_name = JSON.parse(localStorage.getItem("@myCompanies:userName"))  || ""
 
+const user_type = JSON.parse(localStorage.getItem("myCompanies:userType")) || ""
+
 const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
 
     companies: [
@@ -246,18 +248,22 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         },
     ],
 
-    posts: [
+    schedules: [
         {
             date: '24/10/2022',
-            title: 'Alguém tem caneca para revenda?',
-            content: 'Posso buscar entre Itajaí e Barra Velha',
+            company: 'Tejas Designs',
+            content: 'Configurar macros para gabaritos de camisetas',
+            user_responsable: 'luis',
+            due_date: '28/10/2022',
             post_user_id: 3
         },
         {
-            date: '24/10/2022',
-            title: 'Algodão Premium 100%',
-            content: 'Vendo algodão bem barato, retalhos grandes',
-            post_user_id: 4
+            date: '20/10/2022',
+            company: 'Tejas Designs',
+            content: 'Aprimorar o site e atualizar portfolio',
+            user_responsable: 'luis',
+            due_date: '28/10/2022',
+            post_user_id: 3
         }
     ]
 
@@ -269,13 +275,13 @@ async function getPosts() {
 
 }
 
-function getIndexOfId(id) {
+function getIndexSelectedCompany(data) {
 
     let index
 
-    database_posts.forEach((post) => {
-        if (post.id == id) {
-            index = database_posts.indexOf(post)
+    selected_companies.forEach((company) => {
+        if (company.company == data) {
+            index = selected_companies.indexOf(data)
         }
     })
 
@@ -350,6 +356,7 @@ async function login(data) {
             body.removeChild(div_modal_to_remove)
         }
         localStorage.setItem("@myCompanies:userName", JSON.stringify(userLogged.username))
+        localStorage.setItem("myCompanies:userType", JSON.stringify(userLogged.userType))
         renderLoggedInPage(userLogged)
 
         
