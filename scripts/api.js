@@ -2,7 +2,9 @@ const user_id = JSON.parse(localStorage.getItem("@myCompanies:userId"))  || ""
 
 const user_name = JSON.parse(localStorage.getItem("@myCompanies:userName"))  || ""
 
-const user_type = JSON.parse(localStorage.getItem("myCompanies:userType")) || ""
+const user_type = JSON.parse(localStorage.getItem("@myCompanies:userType")) || ""
+
+const loggedIn = JSON.parse(localStorage.getItem("@myCompanies:loggedIn")) || "false"
 
 const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
 
@@ -275,13 +277,13 @@ async function getPosts() {
 
 }
 
-function getIndexSelectedCompany(data) {
+function getIndex(array, data) {
 
     let index
 
-    selected_companies.forEach((company) => {
-        if (company.company == data) {
-            index = selected_companies.indexOf(data)
+    array.forEach((item) => {
+        if (item == data) {
+            index = array.indexOf(data)
         }
     })
 
@@ -356,7 +358,8 @@ async function login(data) {
             body.removeChild(div_modal_to_remove)
         }
         localStorage.setItem("@myCompanies:userName", JSON.stringify(userLogged.username))
-        localStorage.setItem("myCompanies:userType", JSON.stringify(userLogged.userType))
+        localStorage.setItem("@myCompanies:userType", JSON.stringify(userLogged.userType))
+        localStorage.setItem("@myCompanies:loggedIn", JSON.stringify("true"))
         renderLoggedInPage(userLogged)
 
         

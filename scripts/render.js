@@ -49,6 +49,7 @@ async function renderHeader(type, data) {
         header_app.innerHTML = ""
 
         let h2_header = document.createElement("h2")
+        let p_logoff = document.createElement("p")
         let div_user_button = document.createElement("div")
             let button_schedule = document.createElement("button")
             let button_order = document.createElement("button")
@@ -63,6 +64,7 @@ async function renderHeader(type, data) {
         header_app.removeAttribute("class")
         header_app.classList.add("header_app_logged_in")
         h2_header.classList.add("h2_header")
+        p_logoff.classList.add("p_logoff")
         div_user_button.classList.add("div_user_button")
         button_schedule.classList.add("button_menu")
         button_order.classList.add("button_menu")
@@ -73,6 +75,7 @@ async function renderHeader(type, data) {
         p_select_company.classList.add("p_select_company")
 
         h2_header.innerText = `${user_name} - ${user_type}`
+        p_logoff.innerText = "Sair"
         button_schedule.innerText = "AGENDA"
         button_order.innerText = "PEDIDOS"
         button_products.innerText = "PRODUTOS"
@@ -83,8 +86,14 @@ async function renderHeader(type, data) {
         button_schedule.addEventListener("click", () => {
             renderModal('schedule')
         })
+        p_logoff.addEventListener("click", () => {
 
-        header_app.append(h2_header, div_pics, div_user_button)
+            localStorage.setItem("@myCompanies:loggedIn", "false")
+            window.location.assign("./index.html")
+
+        })
+
+        header_app.append(h2_header, p_logoff, div_pics, div_user_button)
             div_pics.appendChild(p_select_company)
             database.companies.forEach((company) => {
 
@@ -100,41 +109,48 @@ async function renderHeader(type, data) {
 
                 img_logo.addEventListener("click", () => {
 
-                    if (selected_companies.length == 0) {
+                    if (img_logo.classList == "img_logo") {
 
                         img_logo.removeAttribute("class")
                         img_logo.classList.add("img_logo_selected")
-                        selected_companies.push(img_logo.company)
+                        infoOn(img_logo.company)
+
+                    } else {
+
+                        img_logo.removeAttribute("class")
+                        img_logo.classList.add("img_logo")
+                        infoOff(img_logo.company)
 
                     }
-                    
-                    if (selected_companies.length == 1) {
-
-                        if (img_logo.company != selected_companies[0]) {
-
-                            img_logo.removeAttribute("class")
-                            img_logo.classList.add("img_logo_selected")
-                            selected_companies.push(img_logo.company)
-
-                        }
-
-                        if (img_logo.company == selected_companies[0]) {
-
-                            img_logo.removeAttribute("class")
-                            img_logo.classList.add("img_logo")
-                            let index_to_splice = getIndexSelectedCompany(img_logo.company)
-
-                            selected_companies.splice(index_to_splice, 1)
-
-                        }
-
-                    } 
 
                 })
 
             })
             div_user_button.append(button_schedule, button_order, button_products,
                 button_receivables, button_payables)
+
+        let buttons_menu = document.querySelectorAll(".button_menu")
+
+        buttons_menu.forEach((button) => {
+
+            button.addEventListener("click", () => {
+
+                if (button.classList == "button_menu") {
+
+                    button.removeAttribute("class")
+                    button.classList.add("button_menu_selected")
+
+                } else if (button.classList == "button_menu_selected") {
+
+                    button.removeAttribute("class")
+                    button.classList.add("button_menu")
+
+                }
+
+            })
+
+        })
+
 
     }
 
@@ -806,7 +822,33 @@ function checkInputs(input_user, input_password) {
 
 }
 
-if (user_name != "") {
+function infoOn(company) {
+
+    console.log("infoOn")
+
+        selected_companies.push(company)
+
+}
+
+function infoOff(company) {
+
+    console.log("infoOff")
+
+    let index = getIndex(selected_companies, company)
+
+    selected_companies.splice(index, 1)   
+
+}
+
+function displayOn(type) {
+    //
+}
+
+function displayOff(type) {
+    //
+}
+
+if (loggedIn == "true") {
 
     let user = {
         id: user_id,

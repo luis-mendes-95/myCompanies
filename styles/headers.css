@@ -13,6 +13,12 @@
     padding: 5%;
 }
 
+.p_logoff{
+    position: absolute;
+    left: 84vw;
+    bottom: 91vh;
+}
+
 .div_user_button{
     padding: 1%;
     margin: 1% 0 0 0;
@@ -40,13 +46,15 @@
     width: 20vw;
     height: 20vw;
     border-radius: 100%;
+    transition: 0.1s;
 }
 
 .img_logo_selected{
     width: 20vw;
     height: 20vw;
     border-radius: 100%;
-    outline: 2pt solid var(--color-brand-1);
+    outline: 4pt solid var(--color-brand-1);
+    transition: 0.1s;
 }
 
 .button_menu {
@@ -57,6 +65,17 @@
     border: none;
     padding: 5%;
     margin: 2%;
+}
+
+.button_menu_selected {
+    background-color: var(--color-brand-1);
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    padding: 5%;
+    margin: 2%;
+    outline: 4pt solid var(--color-brand-2);
 }
 
 @media (min-width: 768px) {
