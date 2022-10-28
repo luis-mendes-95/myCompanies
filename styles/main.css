@@ -6,7 +6,7 @@
 }
 
 .main_app_logged_in{
-    padding: 5%;
+    padding: 0% 5%;
 }
 
 .p_info{
@@ -96,6 +96,54 @@
     transition: 0.3s;
 }
 
+.div_title_and_button {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background-color: var(--color-brand-1);
+    color: white;
+    padding: 2% 2%;
+    border-radius: 8px;
+}
+
+.button_add_new_info {
+    width: 10%;
+    font-size: 18pt;
+    font-weight: 600;
+    background-color: white;
+    color: var(--color-brand-1);
+    border: none;
+    border-radius: 10px;
+}
+
+.li_info {
+    list-style: none;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #a2bbef;
+    border-radius: 8px;
+    padding: 2% 2%;
+    margin: 1% 0%;
+}
+
+.div_schedule, .div_orders, .div_products, .div_receivables, .div_payables {
+    margin: 10% 0%;
+    animation: info_appear 0.3s ease-in-out;
+}
+
+.p_user_responsible, .p_info_client, .p_info_date, .p_info_client, .p_info_product, .p_value {
+    height: 6vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1% 1%;
+    font-size: 11pt;
+    font-weight: 900;
+}
+
+
 @media (min-width: 768px) {
 
     .main_app{
@@ -126,3 +174,17 @@
     }
   
   }
+
+@keyframes info_appear {
+    
+    0% {
+        margin-left: 400px;
+        margin-right: -200px;
+    }
+
+    100% {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+}

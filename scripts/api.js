@@ -12,6 +12,8 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             company: "Tejas Designs",
             avatar: "./assets/img/logo-tejas-designs.png",
+            schedule: [],
+            orders: [],
             portfolio: [
                 {
                     product: "Camiseta Básica Estampa Total Manga Curta Adulto",
@@ -59,6 +61,8 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             company: "Mundo dos Personalizados",
             avatar: "./assets/img/logo-mundo-dos-personalizados.png",
+            schedule: [],
+            orders: [],
             portfolio: [
                 {
                     product: "Camiseta Básica Estampa Total Manga Curta Adulto",
@@ -106,6 +110,8 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             company: "Mundo do Rock",
             avatar: "./assets/img/logo-mundo-do-rock.png",
+            schedule: [],
+            orders: [],
             portfolio: [
                 {
                     product: "Camiseta Básica Estampa Total Manga Curta Adulto",
@@ -153,6 +159,8 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             company: "Oceano Malhas",
             avatar: "./assets/img/logo-oceano-malhas.png",
+            schedule: [],
+            orders: [],
             portfolio: [
                 {
                     product: "Camiseta Básica Estampa Total Manga Curta Adulto",
