@@ -1,12 +1,21 @@
 .div_modal {
     position: absolute;
-    background: #d9d9d9;
+    background: #ffffff;
     top: 5vh;
     left: 8vh;
     right: 8vh;
     padding: 4%;
     border-radius: 16px;
     animation: appearModalMobile 1s;
+    box-shadow: 2pt 2pt 5pt;
+}
+
+.h2_modal_title_error{
+    color: rgb(194, 0, 0);
+}
+
+.img_checked{
+    width: 20%;
 }
 
 @keyframes appearModalMobile {
@@ -17,4 +26,14 @@
     100% {
         top: 5vh;
     }
+}
+
+@media (min-width: 768px) {
+
+    .div_modal{ 
+        top: 5vh;
+        left: 112vh;
+        right: 36vh;
+    }
+    
 }

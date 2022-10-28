@@ -9,6 +9,75 @@
     animation: headerAppearDesktop 2s;
 }
 
+.h2_header{
+    padding: 5%;
+}
+
+.p_logoff{
+    position: absolute;
+    left: 84vw;
+    bottom: 91vh;
+}
+
+.div_user_button{
+    padding: 1%;
+    margin: 1% 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2%;
+    justify-content: center;
+}
+
+.div_pics{
+    display: flex;
+    gap: 3vw;
+    flex-wrap: wrap;
+    margin: 5%;
+}
+
+.p_select_company{
+    font-size: 15pt;
+    font-weight: 600;
+    padding: 1%;
+    width: 100vw;
+}
+
+.img_logo{
+    width: 20vw;
+    height: 20vw;
+    border-radius: 100%;
+    transition: 0.1s;
+}
+
+.img_logo_selected{
+    width: 20vw;
+    height: 20vw;
+    border-radius: 100%;
+    outline: 4pt solid var(--color-brand-1);
+    transition: 0.1s;
+}
+
+.button_menu {
+    background-color: var(--color-brand-1);
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    padding: 5%;
+    margin: 2%;
+}
+
+.button_menu_selected {
+    background-color: var(--color-brand-1);
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    padding: 5%;
+    margin: 2%;
+    outline: 4pt solid var(--color-brand-2);
+}
+
 @media (min-width: 768px) {
 
     .header_app{

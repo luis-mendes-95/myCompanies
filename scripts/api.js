@@ -1,6 +1,10 @@
 const user_id = JSON.parse(localStorage.getItem("@myCompanies:userId"))  || ""
 
-let token = JSON.parse(localStorage.getItem("@myCompanies:token")) || ""
+const user_name = JSON.parse(localStorage.getItem("@myCompanies:userName"))  || ""
+
+const user_type = JSON.parse(localStorage.getItem("@myCompanies:userType")) || ""
+
+const loggedIn = JSON.parse(localStorage.getItem("@myCompanies:loggedIn")) || "false"
 
 const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
 
@@ -8,6 +12,8 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             company: "Tejas Designs",
             avatar: "./assets/img/logo-tejas-designs.png",
+            schedule: [],
+            orders: [],
             portfolio: [
                 {
                     product: "Camiseta Básica Estampa Total Manga Curta Adulto",
@@ -55,6 +61,8 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             company: "Mundo dos Personalizados",
             avatar: "./assets/img/logo-mundo-dos-personalizados.png",
+            schedule: [],
+            orders: [],
             portfolio: [
                 {
                     product: "Camiseta Básica Estampa Total Manga Curta Adulto",
@@ -102,6 +110,8 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             company: "Mundo do Rock",
             avatar: "./assets/img/logo-mundo-do-rock.png",
+            schedule: [],
+            orders: [],
             portfolio: [
                 {
                     product: "Camiseta Básica Estampa Total Manga Curta Adulto",
@@ -149,6 +159,8 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             company: "Oceano Malhas",
             avatar: "./assets/img/logo-oceano-malhas.png",
+            schedule: [],
+            orders: [],
             portfolio: [
                 {
                     product: "Camiseta Básica Estampa Total Manga Curta Adulto",
@@ -199,8 +211,8 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             id: "1",
             username: "LuisMendes",
-            password: "123456",
-            access: 'All'
+            password: "0981",
+            access: 'All'    
         }
     ],
 
@@ -244,6 +256,25 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
             ],
             price: 259.90
         },
+    ],
+
+    schedules: [
+        {
+            date: '24/10/2022',
+            company: 'Tejas Designs',
+            content: 'Configurar macros para gabaritos de camisetas',
+            user_responsable: 'luis',
+            due_date: '28/10/2022',
+            post_user_id: 3
+        },
+        {
+            date: '20/10/2022',
+            company: 'Tejas Designs',
+            content: 'Aprimorar o site e atualizar portfolio',
+            user_responsable: 'luis',
+            due_date: '28/10/2022',
+            post_user_id: 3
+        }
     ]
 
 }
@@ -254,13 +285,13 @@ async function getPosts() {
 
 }
 
-function getIndexOfId(id) {
+function getIndex(array, data) {
 
     let index
 
-    database_posts.forEach((post) => {
-        if (post.id == id) {
-            index = database_posts.indexOf(post)
+    array.forEach((item) => {
+        if (item == data) {
+            index = array.indexOf(data)
         }
     })
 
@@ -297,7 +328,7 @@ function getNewId() {
        let currentId = 0
    
    database.users.forEach((user) => {
-       currentId = user.id
+       currentId = parseInt(user.id)
    })
    
    currentId += 1
@@ -314,21 +345,37 @@ async function getUserInfo(token) {
 
 async function login(data) {
 
-    //search if input values exists on registered users' array database.
+    let userLogged 
+    let access = false
 
-    if (login == 'success') {
+    database.users.forEach((user) => {
 
-        token = response.token
-        localStorage.setItem("@myCompanies:Token", JSON.stringify(response.token))
-        let user = await getUserInfo(token)
-        localStorage.setItem("@myCompanies:userId", JSON.stringify(user.id))
-        renderLoggedInPage(user)
+        if (user.username == data.username && user.password == data.password) {
+            access = true
+            userLogged = user
+        }
 
+    })
+
+    if (access == true) {
+
+        let body = document.querySelector("body")
+        let div_modal_to_remove = document.querySelector(".div_modal") || ""
+
+        if (div_modal_to_remove != "") {
+            body.removeChild(div_modal_to_remove)
+        }
+        localStorage.setItem("@myCompanies:userName", JSON.stringify(userLogged.username))
+        localStorage.setItem("@myCompanies:userType", JSON.stringify(userLogged.userType))
+        localStorage.setItem("@myCompanies:loggedIn", JSON.stringify("true"))
+        renderLoggedInPage(userLogged)
+
+        
     } else {
-
         renderModal('loginError')
-
     }
+
+
 
 }
 
@@ -350,9 +397,17 @@ async function registerCompany(data) {
 
 async function registerUser(newUser) {
 
-    database.users.push(newUser)
-    renderModal('registerOk')
-    localStorage.setItem("@myCompanies:database", JSON.stringify(database))
+    if (newUser.username != "" && newUser.email != "" && newUser.password != "") {
+
+        database.users.push(newUser)
+        renderModal('registerOk')
+        localStorage.setItem("@myCompanies:database", JSON.stringify(database))
+
+    } else {
+
+        renderModal('registerError')
+
+    }
 
 }
 
