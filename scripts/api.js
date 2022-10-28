@@ -12,8 +12,22 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             company: "Tejas Designs",
             avatar: "./assets/img/logo-tejas-designs.png",
-            schedule: [],
-            orders: [],
+            schedule: [
+                {
+                    date: "29/10/2022",
+                    client: "MUNDO DO ROCK",
+                    user_responsible: "Luis",
+                    content: "Ponto de vendas em Pomerode no Wox, show da nervosa"
+                }
+            ],
+            orders: [
+                {
+                    id: 1,
+                    client: "ROTA 47",
+                    product: "Windbanner 3,10M Alt",
+                    value: "R$ 289,00"
+                }
+            ],
             portfolio: [
                 {
                     product: "Camiseta Básica Estampa Total Manga Curta Adulto",
@@ -61,8 +75,21 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             company: "Mundo dos Personalizados",
             avatar: "./assets/img/logo-mundo-dos-personalizados.png",
-            schedule: [],
-            orders: [],
+            schedule: [               
+                 {
+                date: "29/10/2022",
+                client: "MUNDO DOS PERSONALIZADOS",
+                user_responsible: "Luis",
+                content: "Gabaritar e salvar arquivos"
+            }
+            ],
+            orders: [
+                {
+                    client: "ROTA 47",
+                    product: "Windbanner 3,10M Alt",
+                    value: "R$ 289,00"
+                }
+            ],
             portfolio: [
                 {
                     product: "Camiseta Básica Estampa Total Manga Curta Adulto",
@@ -110,8 +137,22 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             company: "Mundo do Rock",
             avatar: "./assets/img/logo-mundo-do-rock.png",
-            schedule: [],
-            orders: [],
+            schedule: [
+                {
+                date: "29/10/2022",
+                client: "EDMILSON",
+                user_responsible: "Nani",
+                content: "Entregar camisetas"
+            }
+            ],
+            orders: [
+                {
+                    id: 1,
+                    client: "ROTA 47",
+                    product: "Windbanner 3,10M Alt",
+                    value: "R$ 289,00"
+                }
+            ],
             portfolio: [
                 {
                     product: "Camiseta Básica Estampa Total Manga Curta Adulto",
@@ -159,8 +200,21 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
         {
             company: "Oceano Malhas",
             avatar: "./assets/img/logo-oceano-malhas.png",
-            schedule: [],
-            orders: [],
+            schedule: [
+                {
+                date: "29/10/2022",
+                client: "Juão",
+                user_responsible: "Nani",
+                content: "Entregar windbanner"
+            }
+            ],
+            orders: [
+                {
+                    client: "ROTA 47",
+                    product: "Windbanner 3,10M Alt",
+                    value: "R$ 289,00"
+                }
+            ],
             portfolio: [
                 {
                     product: "Camiseta Básica Estampa Total Manga Curta Adulto",
@@ -214,67 +268,6 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
             password: "0981",
             access: 'All'    
         }
-    ],
-
-    portfolio: [
-        {
-            product: "Camiseta Básica Estampa Total Manga Curta Adulto",
-            category: "Camisetas",
-            mesh: "Dry Fit 100% Poliéster",
-            costs: [
-                {
-                    costName: "1 Und Oceano Malhas Camiseta Básica Estampa Total Manga Curta Adulto",
-                    value: 30.00
-                }
-            ],
-            price: 59.90
-        },
-        {
-            product: "Windbanner 3,10M Altura",
-            category: "Windbanners",
-            costs: [
-                {
-                    costName: "Costura Windbanner Oceano Malhas",
-                    qty: 1,
-                    value: 10.00
-                },
-                {
-                    costName: "Metro linear tactel sublimado",
-                    qty: 2.5,
-                    value: 14.80
-                },
-                {
-                    costName: "Base concreto",
-                    qty: 1,
-                    value: 25.00
-                },
-                {
-                    costName: "Haste Alumínio",
-                    qty: 1,
-                    value: 25.00
-                }
-            ],
-            price: 259.90
-        },
-    ],
-
-    schedules: [
-        {
-            date: '24/10/2022',
-            company: 'Tejas Designs',
-            content: 'Configurar macros para gabaritos de camisetas',
-            user_responsable: 'luis',
-            due_date: '28/10/2022',
-            post_user_id: 3
-        },
-        {
-            date: '20/10/2022',
-            company: 'Tejas Designs',
-            content: 'Aprimorar o site e atualizar portfolio',
-            user_responsable: 'luis',
-            due_date: '28/10/2022',
-            post_user_id: 3
-        }
     ]
 
 }
@@ -327,8 +320,8 @@ function getNewId() {
    
        let currentId = 0
    
-   database.users.forEach((user) => {
-       currentId = parseInt(user.id)
+   database.companies[2].orders.forEach((order) => {
+       currentId = parseInt(order.id)
    })
    
    currentId += 1
@@ -411,9 +404,9 @@ async function registerUser(newUser) {
 
 }
 
-async function addPost(data) {
+async function addOrder(order) {
 
-//user add post with customized information directed by customized users.
+    database.companies[2].orders.push(order)
 
 }
 
@@ -423,7 +416,7 @@ async function editPost(id, data) {
 
 }
 
-async function deletePost(id) {
+async function deleteOrder(id) {
 
 //delete the post that have that same id on parameter
 
