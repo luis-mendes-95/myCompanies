@@ -146,12 +146,6 @@ const database = JSON.parse(localStorage.getItem("@myCompanies:database")) || {
             }
             ],
             orders: [
-                {
-                    id: 1,
-                    client: "ROTA 47",
-                    product: "Windbanner 3,10M Alt",
-                    value: "R$ 289,00"
-                }
             ],
             portfolio: [
                 {
@@ -407,6 +401,7 @@ async function registerUser(newUser) {
 async function addOrder(order) {
 
     database.companies[2].orders.push(order)
+    localStorage.setItem("@myCompanies:database", JSON.stringify(database))
 
 }
 
