@@ -91,9 +91,6 @@ async function renderHeader(type, data) {
         button_payables.innerText = "A PAGAR"
         p_select_company.innerText = "Selecione uma ou mais empresas:"
 
-        button_schedule.addEventListener("click", () => {
-            renderModal('schedule')
-        })
         p_logoff.addEventListener("click", () => {
 
             localStorage.setItem("@myCompanies:loggedIn", "false")
@@ -121,13 +118,17 @@ async function renderHeader(type, data) {
 
                         img_logo.removeAttribute("class")
                         img_logo.classList.add("img_logo_selected")
-                        infoOn(img_logo.company)
+                        selected_companies.push(img_logo.company)
+                        localStorage.setItem("@myCompanies:database", JSON.stringify(database))
 
                     } else {
 
                         img_logo.removeAttribute("class")
                         img_logo.classList.add("img_logo")
-                        infoOff(img_logo.company)
+                        let index = getIndex(selected_companies, company)
+
+                        selected_companies.splice(index, 1)   
+
 
                     }
 
@@ -145,19 +146,72 @@ async function renderHeader(type, data) {
 
                 if (button.classList == "button_menu") {
 
-                    let info_to_display = button.id
+                    let data = button.id
 
                     button.removeAttribute("class")
                     button.classList.add("button_menu_selected")
-                    displayOn(info_to_display)
+
+                    selected_info.push(data)
+
+                    renderMain('selectedDatabase', data, selected_companies, selected_info)
 
                 } else if (button.classList == "button_menu_selected") {
 
-                    let info_to_display = button.id
+                    let data = button.id
 
                     button.removeAttribute("class")
+
                     button.classList.add("button_menu")
-                    displayOff(info_to_display)
+
+                    let index = getIndex(selected_info, data)
+
+                    selected_info.splice(index, 1)
+                
+                    if (data == 'schedule') {
+                
+                    let main_app = document.querySelector(".main_app_logged_in")
+                        let div_schedule = document.querySelector(".div_schedule")
+                
+                    main_app.removeChild(div_schedule)
+                
+                    }
+                
+                    if (data == 'orders') {
+                
+                        let main_app = document.querySelector(".main_app_logged_in")
+                            let div_orders = document.querySelector(".div_orders")
+                    
+                        main_app.removeChild(div_orders)
+                    
+                    }
+                
+                    if (data == 'products') {
+                
+                        let main_app = document.querySelector(".main_app_logged_in")
+                            let div_products = document.querySelector(".div_products")
+                    
+                        main_app.removeChild(div_products)
+                    
+                    }
+                
+                    if (data == 'receivables') {
+                
+                        let main_app = document.querySelector(".main_app_logged_in")
+                            let div_receivables = document.querySelector(".div_receivables")
+                    
+                        main_app.removeChild(div_receivables)
+                    
+                    }
+                
+                    if (data == 'payables') {
+                
+                        let main_app = document.querySelector(".main_app_logged_in")
+                            let div_payables = document.querySelector(".div_payables")
+                    
+                        main_app.removeChild(div_payables)
+                    
+                    }
+
                 }
 
             })
@@ -169,7 +223,7 @@ async function renderHeader(type, data) {
 
 }
 
-async function renderMain(type) {
+async function renderMain(type, data, info) {
 
     if (type == 'login') {
  
@@ -341,207 +395,287 @@ async function renderMain(type) {
 
     }
 
-    if (type == 'schedule') {
+    if (type == 'selectedDatabase') {
 
-        let main_app = document.querySelector(".main_app_logged_in")
-            let div_schedule = document.createElement("div")
-                let div_title_and_button = document.createElement("div")
-                    let h2_info_title = document.createElement("h2")
-                    let button_add_new_info = document.createElement("button")
-                let ul_info = document.createElement("ul")
-                    li_info = document.createElement("li")
-                        let p_user_responsible = document.createElement("p")
-                        let p_info_client = document.createElement("p")
-                        let p_info_date = document.createElement("p")
+        if (data == 'schedule') {
 
-        //main_app
-            div_schedule.classList.add("div_schedule")
-                div_title_and_button.classList.add("div_title_and_button")
-                    h2_info_title.classList.add("h2_info_title")
-                    button_add_new_info.classList.add("button_add_new_info")
-                ul_info.classList.add("ul_info")
-                    li_info.classList.add("li_info")
-                        p_user_responsible.classList.add("p_user_responsible")
-                        p_info_client.classList.add("p_info_client")
-                        p_info_date.classList.add("p_info_date")
+            let main_app = document.querySelector(".main_app_logged_in")
+                let div_schedule = document.querySelector(".div_schedule") || document.createElement("div")
+                    let div_title_and_button = document.createElement("div")
+                        let h2_info_title = document.createElement("h2")
+                        let button_add_new_info = document.createElement("button")
+                    let ul_info = document.createElement("ul")
 
-        //main_app
-            //div_schedule
-            //div_title_and_button
-                h2_info_title.innerText = "AGENDA"
-                button_add_new_info.innerText = "+"
-            //ul_info
-                //li_info
-                    p_user_responsible.innerText = "LUIS"
-                    p_info_client.innerText = "OCEANO MALHAS"
-                    p_info_date.innerText = "29/10/2022"
+                    //main_app
+                        div_schedule.classList.add("div_schedule")
+                        div_title_and_button.classList.add("div_title_and_button")
+                            h2_info_title.classList.add("h2_info_title")
+                            button_add_new_info.classList.add("button_add_new_info")
+                        ul_info.classList.add("ul_info")
 
-        main_app.appendChild(div_schedule)
-            div_schedule.append(div_title_and_button, ul_info)
-                div_title_and_button.append(h2_info_title, button_add_new_info)
-                ul_info.appendChild(li_info)
-                    li_info.append(p_user_responsible, p_info_client, p_info_date)
- 
-    }
+                    //main_app
+                        div_schedule.innerHTML = ""
+                        //div_title_and_button
+                            h2_info_title.innerText = "AGENDA"
+                            button_add_new_info.innerText = "+"
 
-    if (type == 'orders') {
+                    button_add_new_info.addEventListener("click", () => {
 
-        let main_app = document.querySelector(".main_app_logged_in")
-            let div_orders = document.createElement("div")
-                let div_title_and_button = document.createElement("div")
-                    let h2_info_title = document.createElement("h2")
-                    let button_add_new_info = document.createElement("button")
-                let ul_info = document.createElement("ul")
-                    li_info = document.createElement("li")
-                        let p_info_client = document.createElement("p")
-                        let p_value = document.createElement("p")
+                        renderModal('addSchedule')
 
-        //main_app
-            div_orders.classList.add("div_orders")
-                div_title_and_button.classList.add("div_title_and_button")
-                    h2_info_title.classList.add("h2_info_title")
-                    button_add_new_info.classList.add("button_add_new_info")
-                ul_info.classList.add("ul_info")
-                    li_info.classList.add("li_info")
-                        p_info_client.classList.add("p_info_client")
-                        p_value.classList.add("p_value")
+                    })
 
-        //main_app
-            //div_schedule
-            //div_title_and_button
-                h2_info_title.innerText = "PEDIDOS"
-                button_add_new_info.innerText = "+"
-            //ul_info
-                //li_info
-                    p_info_client.innerText = "ROTA 47 CONVENIENCIA"
-                    p_value.innerText = "R$ 480,00"
+                    main_app.appendChild(div_schedule)
+                        div_schedule.append(div_title_and_button, ul_info)
+                        div_title_and_button.append(h2_info_title, button_add_new_info)
 
-        main_app.appendChild(div_orders)
-            div_orders.append(div_title_and_button, ul_info)
-                div_title_and_button.append(h2_info_title, button_add_new_info)
-                ul_info.appendChild(li_info)
-                    li_info.append(p_info_client, p_value)
+                    if (selected_companies.length > 0) {
 
-    }
+                        selected_companies.forEach((selected_company) => {
 
-    if (type == 'products') {
+                            database.companies.forEach((company) => {
 
-        let main_app = document.querySelector(".main_app_logged_in")
-            let div_products = document.createElement("div")
-                let div_title_and_button = document.createElement("div")
-                    let h2_info_title = document.createElement("h2")
-                    let button_add_new_info = document.createElement("button")
-                let ul_info = document.createElement("ul")
-                    li_info = document.createElement("li")
-                        let p_info_product = document.createElement("p")
-                        let p_value = document.createElement("p")
+                                if (company.company == selected_company) {
 
-        //main_app
-            div_products.classList.add("div_products")
-                div_title_and_button.classList.add("div_title_and_button")
-                    h2_info_title.classList.add("h2_info_title")
-                    button_add_new_info.classList.add("button_add_new_info")
-                ul_info.classList.add("ul_info")
-                    li_info.classList.add("li_info")
-                        p_info_product.classList.add("p_info_product")
-                        p_value.classList.add("p_value")
+                                    company.schedule.forEach((schedule_) => {
 
-        //main_app
-            //div_schedule
-            //div_title_and_button
-                h2_info_title.innerText = "PRODUTOS"
-                button_add_new_info.innerText = "+"
-            //ul_info
-                //li_info
-                    p_info_product.innerText = "WINDBANNER 3,10M ALTURA"
-                    p_value.innerText = "R$ 289,00"
+                                        let li_info = document.createElement("li")
+                                        let p_user_responsible = document.createElement("p")
+                                        let p_info_client = document.createElement("p")
+                                        let p_info_date = document.createElement("p")
+            
+                                        li_info.classList.add("li_info")
+                                        p_user_responsible.classList.add("p_user_responsible")
+                                        p_info_client.classList.add("p_info_client")
+                                        p_info_date.classList.add("p_info_date")
+            
+                                        p_user_responsible.innerText = schedule_.user_responsible
+                                        p_info_client.innerText = schedule_.client
+                                        p_info_date.innerText = schedule_.date
+                                                    
+                                        ul_info.appendChild(li_info)
+                                            li_info.append(p_user_responsible, p_info_client, p_info_date)
+                                    
+                                    })
 
-        main_app.appendChild(div_products)
-            div_products.append(div_title_and_button, ul_info)
-                div_title_and_button.append(h2_info_title, button_add_new_info)
-                ul_info.appendChild(li_info)
-                    li_info.append(p_info_product, p_value)
- 
-    }
+                                }
 
-    if (type == 'receivables') {
+                            })
 
-        let main_app = document.querySelector(".main_app_logged_in")
-            let div_receivables = document.createElement("div")
-                let div_title_and_button = document.createElement("div")
-                    let h2_info_title = document.createElement("h2")
-                    let button_add_new_info = document.createElement("button")
-                let ul_info = document.createElement("ul")
-                    li_info = document.createElement("li")
-                        let p_info_client = document.createElement("p")
-                        let p_value = document.createElement("p")
+                        })
 
-        //main_app
-            div_receivables.classList.add("div_receivables")
-                div_title_and_button.classList.add("div_title_and_button")
-                    h2_info_title.classList.add("h2_info_title")
-                    button_add_new_info.classList.add("button_add_new_info")
-                ul_info.classList.add("ul_info")
-                    li_info.classList.add("li_info")
-                        p_info_client.classList.add("p_info_client")
-                        p_value.classList.add("p_value")
+                    }
+    
+        }
+        
+        if (data == 'orders') {
 
-        //main_app
-            //div_schedule
-            //div_title_and_button
-                h2_info_title.innerText = "A RECEBER"
-                button_add_new_info.innerText = "+"
-            //ul_info
-                //li_info
-                    p_info_client.innerText = "MUNDO DOS PERSONALIZADOS"
-                    p_value.innerText = "R$ 846,00"
+            let main_app = document.querySelector(".main_app_logged_in")
+                let div_orders = document.querySelector(".div_orders") || document.createElement("div")
+                    let div_title_and_button = document.createElement("div")
+                        let h2_info_title = document.createElement("h2")
+                        let button_add_new_info = document.createElement("button")
+                    let ul_info = document.createElement("ul")
 
-        main_app.appendChild(div_receivables)
-            div_receivables.append(div_title_and_button, ul_info)
-                div_title_and_button.append(h2_info_title, button_add_new_info)
-                ul_info.appendChild(li_info)
-                    li_info.append(p_info_client, p_value)
- 
-    }
+                        //li_info = document.createElement("li")
+                          //  let p_info_client = document.createElement("p")
+                            //let p_value = document.createElement("p")
+    
+            //main_app
+                div_orders.classList.add("div_orders")
+                    div_title_and_button.classList.add("div_title_and_button")
+                        h2_info_title.classList.add("h2_info_title")
+                        button_add_new_info.classList.add("button_add_new_info")
+                    ul_info.classList.add("ul_info")
+                        //li_info.classList.add("li_info")
+                          //  p_info_client.classList.add("p_info_client")
+                            //p_value.classList.add("p_value")
+    
+            //main_app
+                div_orders.innerHTML = ""
+                //div_title_and_button
+                    h2_info_title.innerText = "PEDIDOS"
+                    button_add_new_info.innerText = "+"
+                //ul_info
+                    //li_info
+                        //p_info_client.innerText = "ROTA 47 CONVENIENCIA"
+                        //p_value.innerText = "R$ 480,00"
 
-    if (type == 'payables') {
+                button_add_new_info.addEventListener("click", () => {
 
-        let main_app = document.querySelector(".main_app_logged_in")
-            let div_payables = document.createElement("div")
-                let div_title_and_button = document.createElement("div")
-                    let h2_info_title = document.createElement("h2")
-                    let button_add_new_info = document.createElement("button")
-                let ul_info = document.createElement("ul")
-                    li_info = document.createElement("li")
-                        let p_info_client = document.createElement("p")
-                        let p_value = document.createElement("p")
+                    window.location.assign("#header_app")
+                    renderModal('addOrder')
+    
+                })
+    
+            main_app.appendChild(div_orders)
+                div_orders.append(div_title_and_button, ul_info)
+                    div_title_and_button.append(h2_info_title, button_add_new_info)
 
-        //main_app
-            div_payables.classList.add("div_payables")
-                div_title_and_button.classList.add("div_title_and_button")
-                    h2_info_title.classList.add("h2_info_title")
-                    button_add_new_info.classList.add("button_add_new_info")
-                ul_info.classList.add("ul_info")
-                    li_info.classList.add("li_info")
-                        p_info_client.classList.add("p_info_client")
-                        p_value.classList.add("p_value")
+                    if (selected_companies.length > 0) {
 
-        //main_app
-            //div_schedule
-            //div_title_and_button
-                h2_info_title.innerText = "A PAGAR"
-                button_add_new_info.innerText = "+"
-            //ul_info
-                //li_info
-                    p_info_client.innerText = "M2 SUBLIMAÇÃO"
-                    p_value.innerText = "R$ 37,25"
+                        selected_companies.forEach((selected_company) => {
 
-        main_app.appendChild(div_payables)
-            div_payables.append(div_title_and_button, ul_info)
-                div_title_and_button.append(h2_info_title, button_add_new_info)
-                ul_info.appendChild(li_info)
-                    li_info.append(p_info_client, p_value)
- 
+                            database.companies.forEach((company) => {
+
+                                if (company.company == selected_company) {
+
+                                    console.log(company.company)
+                                    console.log(company.orders)
+                                    
+                                    company.orders.forEach((order) => {
+
+
+
+                                        let li_info = document.createElement("li")
+                                        let p_info_client = document.createElement("p")
+                                        let p_info_product = document.createElement("p")
+                                        let p_value = document.createElement("p")
+            
+                                        li_info.classList.add("li_info")
+                                        p_info_client.classList.add("p_info_client")
+                                        p_info_product.classList.add("p_info_product")
+                                        p_value.classList.add("p_value")
+            
+                                        p_info_client.innerText = order.client
+                                        p_info_product.innerText = order.product
+                                        p_value.innerText = order.value
+                                                    
+                                        ul_info.appendChild(li_info)
+                                            li_info.append(p_info_client, p_info_product, p_value)
+                                    
+                                    })
+
+                                }
+
+                            })
+
+                        })
+
+                    }
+    
+        }
+    
+        if (data == 'products') {
+    
+            let main_app = document.querySelector(".main_app_logged_in")
+                let div_products = document.createElement("div")
+                    let div_title_and_button = document.createElement("div")
+                        let h2_info_title = document.createElement("h2")
+                        let button_add_new_info = document.createElement("button")
+                    let ul_info = document.createElement("ul")
+                        li_info = document.createElement("li")
+                            let p_info_product = document.createElement("p")
+                            let p_value = document.createElement("p")
+    
+            //main_app
+                div_products.classList.add("div_products")
+                    div_title_and_button.classList.add("div_title_and_button")
+                        h2_info_title.classList.add("h2_info_title")
+                        button_add_new_info.classList.add("button_add_new_info")
+                    ul_info.classList.add("ul_info")
+                        li_info.classList.add("li_info")
+                            p_info_product.classList.add("p_info_product")
+                            p_value.classList.add("p_value")
+    
+            //main_app
+                //div_schedule
+                //div_title_and_button
+                    h2_info_title.innerText = "PRODUTOS"
+                    button_add_new_info.innerText = "+"
+                //ul_info
+                    //li_info
+                        p_info_product.innerText = "WINDBANNER 3,10M ALTURA"
+                        p_value.innerText = "R$ 289,00"
+    
+            main_app.appendChild(div_products)
+                div_products.append(div_title_and_button, ul_info)
+                    div_title_and_button.append(h2_info_title, button_add_new_info)
+                    ul_info.appendChild(li_info)
+                        li_info.append(p_info_product, p_value)
+     
+        }
+    
+        if (data == 'receivables') {
+    
+            let main_app = document.querySelector(".main_app_logged_in")
+                let div_receivables = document.createElement("div")
+                    let div_title_and_button = document.createElement("div")
+                        let h2_info_title = document.createElement("h2")
+                        let button_add_new_info = document.createElement("button")
+                    let ul_info = document.createElement("ul")
+                        li_info = document.createElement("li")
+                            let p_info_client = document.createElement("p")
+                            let p_value = document.createElement("p")
+    
+            //main_app
+                div_receivables.classList.add("div_receivables")
+                    div_title_and_button.classList.add("div_title_and_button")
+                        h2_info_title.classList.add("h2_info_title")
+                        button_add_new_info.classList.add("button_add_new_info")
+                    ul_info.classList.add("ul_info")
+                        li_info.classList.add("li_info")
+                            p_info_client.classList.add("p_info_client")
+                            p_value.classList.add("p_value")
+    
+            //main_app
+                //div_schedule
+                //div_title_and_button
+                    h2_info_title.innerText = "A RECEBER"
+                    button_add_new_info.innerText = "+"
+                //ul_info
+                    //li_info
+                        p_info_client.innerText = "MUNDO DOS PERSONALIZADOS"
+                        p_value.innerText = "R$ 846,00"
+    
+            main_app.appendChild(div_receivables)
+                div_receivables.append(div_title_and_button, ul_info)
+                    div_title_and_button.append(h2_info_title, button_add_new_info)
+                    ul_info.appendChild(li_info)
+                        li_info.append(p_info_client, p_value)
+     
+        }
+    
+        if (data == 'payables') {
+    
+            let main_app = document.querySelector(".main_app_logged_in")
+                let div_payables = document.createElement("div")
+                    let div_title_and_button = document.createElement("div")
+                        let h2_info_title = document.createElement("h2")
+                        let button_add_new_info = document.createElement("button")
+                    let ul_info = document.createElement("ul")
+                        li_info = document.createElement("li")
+                            let p_info_client = document.createElement("p")
+                            let p_value = document.createElement("p")
+    
+            //main_app
+                div_payables.classList.add("div_payables")
+                    div_title_and_button.classList.add("div_title_and_button")
+                        h2_info_title.classList.add("h2_info_title")
+                        button_add_new_info.classList.add("button_add_new_info")
+                    ul_info.classList.add("ul_info")
+                        li_info.classList.add("li_info")
+                            p_info_client.classList.add("p_info_client")
+                            p_value.classList.add("p_value")
+    
+            //main_app
+                //div_schedule
+                //div_title_and_button
+                    h2_info_title.innerText = "A PAGAR"
+                    button_add_new_info.innerText = "+"
+                //ul_info
+                    //li_info
+                        p_info_client.innerText = "M2 SUBLIMAÇÃO"
+                        p_value.innerText = "R$ 37,25"
+    
+            main_app.appendChild(div_payables)
+                div_payables.append(div_title_and_button, ul_info)
+                    div_title_and_button.append(h2_info_title, button_add_new_info)
+                    ul_info.appendChild(li_info)
+                        li_info.append(p_info_client, p_value)
+     
+        }
+
     }
 
 }
@@ -728,6 +862,93 @@ function renderModal(type, post) {
                     div_title_and_close.append(h2_modal_title_add_new_post, button_close_modal_add_post)
                     div_content_and_buttons.append(label_input_post_title, input_post_title, 
                                                     label_input_post_text, input_post_text, 
+                                                    div_cancel_and_publish)
+                        div_cancel_and_publish.append(button_cancel, button_publish)
+
+    }
+
+    if (type == "addOrder") {
+
+        let body = document.querySelector("body")
+
+        let div_modal_background = document.createElement("div")
+            let div_modal_content = document.createElement("div")
+                let div_title_and_close = document.createElement("div")
+                    let h2_modal_title_add_new_post = document.createElement("h2")
+                    let button_close_modal_add_post = document.createElement("button")
+                let div_content_and_buttons = document.createElement("div")
+
+                    let label_input_order_client = document.createElement("label")
+                    let input_order_client = document.createElement("input")
+                    
+                    let label_input_order_product = document.createElement("label")
+                    let input_order_product = document.createElement("input")
+
+                    let label_input_order_value = document.createElement("label")
+                    let input_order_value = document.createElement("input")
+
+
+                    let div_cancel_and_publish = document.createElement("div")
+                        let button_cancel = document.createElement("button")
+                        let button_publish = document.createElement("button")
+
+        div_modal_background.classList.add("div_modal_background")
+        div_modal_content.classList.add("div_modal_content")
+        div_title_and_close.classList.add("div_title_and_close")
+        h2_modal_title_add_new_post.classList.add("h2_modal_title_add_new_post")
+        button_close_modal_add_post.classList.add("button_close_modal_add_post")
+        div_content_and_buttons.classList.add("div_content_and_buttons")
+        label_input_order_client.classList.add("label_input_order_client")
+        input_order_client.classList.add("input_order_client")
+        label_input_order_product.classList.add("label_input_order_product")
+        input_order_product.classList.add("input_order_product")
+        label_input_order_value.classList.add("label_input_order_value")
+        input_order_value.classList.add("input_order_value")
+        div_cancel_and_publish.classList.add("div_cancel_and_publish")
+        button_cancel.classList.add("button_cancel")
+        button_publish.classList.add("button_publish")
+
+        h2_modal_title_add_new_post.innerText = "Criando novo pedido"
+        button_close_modal_add_post.innerText = "X"
+
+        label_input_order_client.innerText = "CLIENTE:"
+        input_order_client.placeholder = "Digite o cliente aqui..."
+        label_input_order_product.innerText = "PRODUTO:"
+        input_order_product.placeholder = "Digite o produto aqui..."
+        label_input_order_value.innerText = "VALOR:"
+        input_order_value.placeholder = "Digite o valor aqui..."
+
+        button_cancel.innerText = "Cancelar"
+        button_publish.innerText = "Salvar"
+
+        button_close_modal_add_post.addEventListener("click", () => {
+            body.removeChild(div_modal_background)
+        })
+        button_cancel.addEventListener("click", () => {
+            body.removeChild(div_modal_background)
+        })
+        button_publish.addEventListener("click", async () => {
+
+            let product = {
+                id: getNewId(),
+                client: input_order_client.value,
+                product: input_order_product.value,
+                value: input_order_value.value
+            }
+
+            addOrder(product)
+            body.removeChild(div_modal_background)
+            renderMain('loggedIn')
+        })
+        
+
+        body.appendChild(div_modal_background)
+            div_modal_background.appendChild(div_modal_content)
+                div_modal_content.append(div_title_and_close, div_content_and_buttons)
+                    div_title_and_close.append(h2_modal_title_add_new_post, button_close_modal_add_post)
+                    div_content_and_buttons.append(label_input_order_client, input_order_client, 
+                                                    label_input_order_product, input_order_product,
+                                                    label_input_order_value, input_order_value, 
                                                     div_cancel_and_publish)
                         div_cancel_and_publish.append(button_cancel, button_publish)
 
@@ -968,93 +1189,6 @@ function checkInputs(input_user, input_password) {
 
         }
     } 
-
-}
-
-function infoOn(company) {
-
-    selected_companies.push(company)
-
-    console.log(selected_companies)
-
-}
-
-function infoOff(company) {
-
-    console.log(selected_companies)
-
-    let index = getIndex(selected_companies, company)
-
-    selected_companies.splice(index, 1)   
-
-    console.log(selected_companies)
-
-}
-
-function displayOn(info_to_display) {
-
-    selected_info.push(info_to_display)
-
-    console.log(selected_info)
-
-    renderMain(info_to_display)
-
-}
-
-function displayOff(info_to_display) {
-
-    let index = getIndex(selected_info, info_to_display)
-
-    selected_info.splice(index, 1)
-
-    console.log(selected_info)
-
-    if (info_to_display == 'schedule') {
-
-    let main_app = document.querySelector(".main_app_logged_in")
-        let div_schedule = document.querySelector(".div_schedule")
-
-    main_app.removeChild(div_schedule)
-
-    }
-
-    if (info_to_display == 'orders') {
-
-        let main_app = document.querySelector(".main_app_logged_in")
-            let div_orders = document.querySelector(".div_orders")
-    
-        main_app.removeChild(div_orders)
-    
-    }
-
-    if (info_to_display == 'products') {
-
-        let main_app = document.querySelector(".main_app_logged_in")
-            let div_products = document.querySelector(".div_products")
-    
-        main_app.removeChild(div_products)
-    
-    }
-
-    if (info_to_display == 'receivables') {
-
-        let main_app = document.querySelector(".main_app_logged_in")
-            let div_receivables = document.querySelector(".div_receivables")
-    
-        main_app.removeChild(div_receivables)
-    
-    }
-
-    if (info_to_display == 'payables') {
-
-        let main_app = document.querySelector(".main_app_logged_in")
-            let div_payables = document.querySelector(".div_payables")
-    
-        main_app.removeChild(div_payables)
-    
-    }
-
-
 
 }
 

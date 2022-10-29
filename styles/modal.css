@@ -1,3 +1,13 @@
+.div_modal_background{
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background-color: #00000094;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .div_modal {
     position: absolute;
     background: #ffffff;
@@ -10,12 +20,63 @@
     box-shadow: 2pt 2pt 5pt;
 }
 
+.div_modal_content{
+    background-color: white;
+    padding: 5% 5%;
+    width: 90vw;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    justify-content: center;
+}
+
+.div_content_and_buttons{
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    height: 86%;
+    gap: 6%;
+}
+
+.div_title_and_close{
+    display: flex;
+    justify-content: space-between;
+    margin: 4% 0%;
+}
+
 .h2_modal_title_error{
     color: rgb(194, 0, 0);
 }
 
 .img_checked{
     width: 20%;
+}
+
+.input_order_client, .input_order_product, .input_order_value {
+    height: 13%;
+    border-radius: 8px;
+    border: none;
+    background-color: #e3e3e3;
+    padding: 0% 2%;
+}
+
+.button_close_modal_add_post, .button_cancel, .button_publish{
+    width: 12%;
+    border: none;
+    background-color: var(--color-background-1);
+    border-radius: 8px;
+    font-weight: 900;
+}
+
+.button_cancel, .button_publish{
+    width: 36%;
+    height: 35px;
+    border: none;
+    background-color: var(--color-background-1);
+    border-radius: 8px;
+    font-weight: 900;
+    margin: 0% 5%;
 }
 
 @keyframes appearModalMobile {

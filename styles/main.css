@@ -114,6 +114,9 @@
     color: var(--color-brand-1);
     border: none;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .li_info {
@@ -143,6 +146,9 @@
     font-weight: 900;
 }
 
+.p_info_client{
+    text-align: center;
+}
 
 @media (min-width: 768px) {
 
